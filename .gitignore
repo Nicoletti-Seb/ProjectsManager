@@ -1,0 +1,11 @@
+node_modules
+dist
+browser
+.tmp
+.browser
+.sass-cache
+*.sublime-*
+.DS_Store
+npm-debug.log
+deps.json
+/config.json

@@ -1,0 +1,60 @@
+{
+  "name": "ProjectsManager",
+  "version": "1.0.0",
+  "description": "The architecture to start a new Webapp",
+  "scripts": {
+    "test": "echo \"Warning: no test specified\"",
+    "build": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/53JS/webapp_boilerplate.git"
+  },
+  "author": "Sébastien Nicoletti & Martin Léo-Paul",
+  "license": "ISC",
+  "homepage": "https://github.com/Nicoletti-Seb/ProjectsManager",
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "connect": "^3.5.0",
+    "connect-livereload": "^0.6.0",
+    "del": "^2.2.2",
+    "eslint": "^2.13.1",
+    "eslint-config-53js": "^0.1.3",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-buffer": "0.0.2",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-debug": "^2.1.2",
+    "gulp-eslint": "^3.0.1",
+    "gulp-filter": "^4.0.0",
+    "gulp-flatten": "^0.3.1",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-if": "^2.0.1",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-load-plugins": "^1.3.0",
+    "gulp-nunjucks": "^2.3.0",
+    "gulp-nunjucks-render": "^2.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^1.7.3",
+    "gulp-uglify": "^2.0.0",
+    "gulp-useref": "^3.1.2",
+    "gulp-util": "^3.0.7",
+    "gulp-watch": "^4.3.10",
+    "lodash": "^3.10.0",
+    "merge-stream": "^1.0.0",
+    "nunjucks": "^2.5.2",
+    "nunjucksify": "^0.2.3",
+    "opn": "^4.0.2",
+    "serve-index": "^1.8.0",
+    "serve-static": "^1.11.1",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "zeptojs": "^1.1.4"
+  }
+}

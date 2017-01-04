@@ -1,0 +1,44 @@
+@import "normalized.scss";
+// 53JS Fonts
+@import "fonts/fonts.scss";
+// 53JS Variables
+@import "variables.scss";
+// 53JS Bases
+@import "base.scss";
+// 53JS Components
+// 53JS Partials
+@import "partials/header.scss";
+@import "partials/footer.scss";
+
+/*
+ *      *********
+ *      * INBOX *
+ *      *********
+ *
+ *      Place unclassified styles here until reformating
+ */
+
+body {
+	height:100vh;
+}
+.header {
+	padding: 50px;
+	background: #efefef;
+	h1 {
+		color: $color-orange;
+	}
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    align-items: center;
+}
+.section {
+	position: relative;
+}
+
+.section-padding {
+	padding: 65px 80px;
+}

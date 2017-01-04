@@ -1,0 +1,62 @@
+/*
+ * 53JS
+ * VARIABLES
+ */
+
+/*
+ * FONTS
+ */
+$font-path: "../fonts" !default;
+$font-family-text : "Georgia", Helvetica, Arial, sans-serif !default;
+$font-family-sub : "open sans", Helvetica, Arial, sans-serif !default;
+$font-family-heading : "loveloblack";
+$font-family-upper : "lato";
+
+/*
+ * COLORS
+ */
+$color-white:							#ffffff;
+$color-orange:							#ec6001;
+$color-gray-darkest:					#111111;
+$color-gray-dark:						#222222;
+$color-gray-lightest:					#f7f7f7;
+$color-gray-light:						#999999;
+$color-js:								#EFDC4F;
+$color-html:							#E64C18;
+
+// $color-devroom:						#0892c0;
+// $color-w3devcampus:					#f17930;
+// $color-twitter:						#55ACEE;
+
+/*
+ * TYPOGRAPHY
+ */
+$text-size-xxl:						3em !default;
+$text-size-xl:						2em !default;
+$text-size-lg:						1.6em !default;
+$text-size-md:						1.3em !default;
+$text-size-sm:						1.1em !default;
+
+$icon-size-md:						1.3em !default;
+$icon-size-lg:						3em !default;
+$icon-size-xl:						4em !default;
+
+/*
+ * SIZING
+ */
+$width-md:							240px !default;
+$width-lg:							290px !default;
+$width-encapsuled-icon:				1.6em !default;
+
+$height-header:						460px !default;
+$height-future:						764px !default;
+
+$padding-sm:						20px !default;
+$padding-md:						40px !default;
+$padding-lg:						60px !default;
+$padding-xl:						100px !default;
+
+$btn-padding-vertical-xl:			1em;
+$btn-padding-horizontal-xl:			4em;
+
+$stroke-sm:							3px;

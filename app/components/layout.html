@@ -1,0 +1,46 @@
+<!doctype html>
+<!--[if IE 9]><html class="ie9" lang="fr"><![endif]-->
+<!--[if IE 8]><html class="ie8" lang="fr"><![endif]-->
+<!--[if IE 7]><html class="ie7" lang="fr"><![endif]-->
+<!--[if gt IE 9]><!--><html lang="fr"><!--<![endif]-->
+
+<head>
+	<meta charset="utf-8">
+	<title>Webapp</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+
+	<!-- build:css styles/main.css -->
+	<link rel="stylesheet" href="styles/main.css">
+	<!-- endbuild -->
+
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<!--[if lt IE 10]>
+			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+
+		{% block header %}
+			{% include "partials/header.html" %}
+		{% endblock %}
+
+		{% block content %}
+		{% endblock %}
+
+		{% block footer %}
+			{% include "partials/footer.html" %}
+		{% endblock %}
+
+	</div>
+	
+	<!-- build:js scripts/main.js -->
+	<script src="scripts/main.js"></script>
+	<!-- endbuild -->
+
+</body>
+
+</html>
