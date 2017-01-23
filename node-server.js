@@ -1,6 +1,5 @@
 var http = require('http');
 
-
 module.exports = function NodeServer(app, hostname, port) {
 	var server = null;
 

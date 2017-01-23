@@ -1,10 +1,11 @@
 'use strict';
 
-/* eslint-disable vars-on-top */
-var $ = require('zeptojs');
-var domready = require('./domready');
+var $ = require('jquery');
+var Backbone = require('backbone');
 
-domready(function onDOMReady() {
-	console.log('Hello World');
+
+$(function onDocumentReady() {
+	//Start router
+	require('./routers/main-routers')();
+	Backbone.history.start();
 });
-
