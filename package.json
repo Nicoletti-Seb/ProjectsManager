@@ -57,7 +57,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "socket.io-client": "^1.7.2",
-    "zeptojs": "^1.1.4"
+    "jquery": "^3.1.1",
+    "socket.io-client": "^1.7.2"
   }
 }
