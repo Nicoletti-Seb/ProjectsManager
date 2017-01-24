@@ -3,6 +3,8 @@
 /* eslint-disable vars-on-top */
 var $ = require('jquery');
 var domready = require('./domready');
+var Map = require('./map');
+
 //https://www.npmjs.com/package/socket.io-client
 var socket = require('socket.io-client')();
 
@@ -14,7 +16,7 @@ socket.on('error', function onError(err) {
 socket.on('connect', function onConnect() {
 	console.log('connected');
 	// call the server-side function 'adduser' and send one parameter (value of prompt)
-	socket.emit('adduser', prompt("What's your name?"));
+	socket.emit('adduser', /*prompt("What's your name?")*/ 'toto');
 });
 
 // listener, whenever the server emits 'updatechat', this updates the chat body
@@ -38,6 +40,18 @@ socket.on('updaterooms', function onUpdateRooms(rooms, currentRoom) {
 	});
 });
 
+
+/*eslint-disable no-unused-vars*/
+function initMap() {
+	var mapCanvas = document.querySelector('.map');
+	var map = new Map(mapCanvas, {
+		markerDraggable: false
+	});
+
+	map.addMarker({ y: 43.5, x: 7 });
+}
+/*eslint-enable no-unused-vars*/
+
 domready(function onDOMReady() {
 	// when the client clicks SEND
 	$('#datasend').click(function onClickDataSend() {
@@ -58,5 +72,10 @@ domready(function onDOMReady() {
 	$('.rooms').on('click', '.switchRoom', function onSwitchRoom() {
 		socket.emit('switchRoom', $(this).data('name'));
 	});
+
+
+	if (document.querySelector('.map')) {
+		initMap();
+	}
 });
 
