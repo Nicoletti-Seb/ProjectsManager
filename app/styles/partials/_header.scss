@@ -1,11 +1,6 @@
 .header {
 	width: 100%;
 	text-align: center;
-	background: #57BC90; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(right, #77C9D4 , #57BC90); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #77C9D4, #57BC90); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #77C9D4, #57BC90); /* For Firefox 3.6 to 15 */
- 	background: linear-gradient(to right, #77C9D4 , #57BC90); /* Standard syntax */
 }
 
 .header-title {
