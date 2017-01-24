@@ -41,6 +41,7 @@ body {
 }
 .section {
 	position: relative;
+	margin: 20px;
 }
 
 .section-padding {
@@ -59,6 +60,31 @@ body {
 	color: #015249;
 	box-shadow: 3px 3px 3px 0 rgba(0,0,0,0.2);
 	margin: 5px 0px 10px;
+}
+.input-textarea {
+	width: 500px;
+	height: 200px;
+}
+.input-file {
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    left: 0;
+    width: 225px;
+    padding: 14px 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.file label {
+    background: #A5A5AF;
+    padding: 7px 20px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
+    color: #FFFFFF; 
+    -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+	box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+	text-shadow: -1px -1px 0 rgba(15,73,168,0.66) ;
+
 }
 .button {
 	  display: inline-block;
