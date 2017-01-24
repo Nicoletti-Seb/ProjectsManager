@@ -14,7 +14,7 @@ socket.on('error', function onError(err) {
 socket.on('connect', function onConnect() {
 	console.log('connected');
 	// call the server-side function 'adduser' and send one parameter (value of prompt)
-	socket.emit('adduser', prompt("What's your name?"));
+	socket.emit('adduser', 'toto');
 });
 
 // listener, whenever the server emits 'updatechat', this updates the chat body
