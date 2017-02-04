@@ -8,7 +8,7 @@ const merge = require('merge-stream');
 const NodeServer = require('./node-server');
 
 const hostname = "localhost";
-const port = 9000;
+const port = 9001;
 
 let $ = require('gulp-load-plugins')();
 let pkg = require('./package');
@@ -19,10 +19,15 @@ let production = false;
 gulp.task('browserify', [], () => {
 	return browserify({
 			entries: './app/scripts/main.js',
+        	paths: ['./modules'],
 			debug: !production
 		})
+		.transform(nunjucksify, {
+			global: true,
+			extension: '.html'
+		})
 		.bundle()
-		.on('error', (err) => {
+		.on('error', function (err) {
 			console.log(err.toString());
 			this.emit('end');
 		})
