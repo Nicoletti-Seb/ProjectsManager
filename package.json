@@ -48,6 +48,7 @@
     "gulp-watch": "^4.3.10",
     "lodash": "^3.10.0",
     "merge-stream": "^1.0.0",
+    "mongodb": "^2.2.22",
     "nunjucks": "^2.5.2",
     "nunjucksify": "^0.2.3",
     "opn": "^4.0.2",
