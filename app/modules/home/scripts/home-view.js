@@ -6,7 +6,8 @@ module.exports = Backbone.View.extend({
 	template: require('../templates/home.html'),
 
 	render: function render() {
-		this.$el.html(this.template);
+		var html = this.template.render();
+		this.$el.html(html);
 		return this;
 	}
 });

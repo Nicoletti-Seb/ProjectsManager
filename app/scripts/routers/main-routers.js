@@ -13,12 +13,6 @@ var project = require('project');
 
 var $content = $('.content');
 
-/*var stopAll = function stopAll() {
-	connection.stop();
-	home.stop();
-	project.stop();
-};*/
-
 var MainRouter = Backbone.Router.extend({
 
 	routes: {

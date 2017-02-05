@@ -7,6 +7,8 @@ const source = require('vinyl-source-stream');
 const merge = require('merge-stream');
 const NodeServer = require('./node-server');
 
+const LIVERELOAD_PORT = 35730;
+
 const hostname = "localhost";
 const port = 9001;
 
@@ -19,7 +21,7 @@ let production = false;
 gulp.task('browserify', [], () => {
 	return browserify({
 			entries: './app/scripts/main.js',
-        	paths: ['./modules'],
+        	paths: ['./app/modules'],
 			debug: !production
 		})
 		.transform(nunjucksify, {
@@ -66,20 +68,19 @@ gulp.task('connect', ['nunjucks', 'browserify', 'sass'], function() {
 });
 
 gulp.task('watch', ['connect'], function() {
-	$.livereload.listen();
+	$.livereload.listen({ port: LIVERELOAD_PORT });
+
 	// watch for changes
 	gulp.watch([
-			'.tmp/*.html',
-			'.tmp/styles/**/*.css',
-			'.tmp/scripts/**/*.js',
-			'{browser,dist}/scripts/**/*.js',
-			'modules/**/*.js',
-			'{app}/images/**/*'
-		]).on('change', $.livereload.changed);
+		'.tmp/**.html',
+		'{app,.tmp,app/modules/*}/styles/**/*.css',
+		'{browser,dist}/scripts/**/*.js',
+		'{app,app/modules/**}/images/**/*'
+	]).on('change', $.livereload.changed);
 
-	gulp.watch(['app/**/*.html', 'app/data.json'], ['nunjucks']);
-	gulp.watch(['app/styles/**/*.{css,scss}'], ['sass']);
-	gulp.watch(['app/scripts/**/*.js', '{app/*}/templates/**/*.html', 'app/modules/**/*.js'], ['browserify']);
+	gulp.watch(['package.json', 'app/**.html'], ['version']);
+	gulp.watch(['{app,app/modules/*}/styles/**/*.scss'], ['sass']);
+	gulp.watch(['{app,app/modules/*}/scripts/**/*.js', '{app,app/modules/*}/templates/**/*.html', 'app/modules/*/*.js'], ['browserify']);
 });
 
 gulp.task('useref', ['nunjucks', 'sass'], function() {

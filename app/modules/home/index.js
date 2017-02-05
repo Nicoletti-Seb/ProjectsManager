@@ -8,7 +8,7 @@ module.exports = {
 
 	start: function startMonitor($container) {
 		$container.append(homeView.$el);
-		homeView.startListening().delegateEvents().render();
+		homeView.delegateEvents().render();
 	},
 
 	stop: function stopMonitor() {
