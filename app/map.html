@@ -1,4 +1,12 @@
-{% extends "components/layout.html" %} 
+{% extends "components/layout.html" %}
+{% block header %}
+	{% include "partials/header-min.html" %}
+{% endblock %}
+
 {% block content %}
 	{% include "partials/map.html" %}
+{% endblock %}
+
+{% block footer %}
+	{% include "partials/footer-min.html" %}
 {% endblock %}

@@ -1,6 +1,12 @@
 {% extends "components/layout.html" %} 
+{% block header %}
+	{% include "partials/header-min.html" %}
+{% endblock %}
+
 {% block content %}
-	<section>
-		{% include "partials/formProject.html" %}
-	</section>
+	{% include "partials/formProject.html" %}
+{% endblock %}
+
+{% block footer %}
+	{% include "partials/footer-min.html" %}
 {% endblock %}

@@ -24,12 +24,12 @@ body {
 	height:100vh;
 }
 .header {
-	padding: 50px;
-	background: #57BC90; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(right, #77C9D4 , #57BC90); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #77C9D4, #57BC90); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #77C9D4, #57BC90); /* For Firefox 3.6 to 15 */
- 	background: linear-gradient(to right, #77C9D4 , #57BC90); /* Standard syntax */
+	//padding: 50px;
+	//background: #57BC90; /* For browsers that do not support gradients */
+    //background: -webkit-linear-gradient(right, #77C9D4 , #57BC90); /* For Safari 5.1 to 6.0 */
+    //background: -o-linear-gradient(right, #77C9D4, #57BC90); /* For Opera 11.1 to 12.0 */
+    //background: -moz-linear-gradient(right, #77C9D4, #57BC90); /* For Firefox 3.6 to 15 */
+ 	//background: linear-gradient(to right, #77C9D4 , #57BC90); /* Standard syntax */
 	h1 {
 		color: $color-orange;
 	}
@@ -45,9 +45,8 @@ body {
 	position: relative;
 	margin: 20px;
 }
-
 .section-padding {
-	padding: 65px 80px;
+	//padding: 65px 80px;
 }
 
 .form-title {
@@ -116,6 +115,33 @@ body {
 	box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
 	text-shadow: -1px -1px 0 rgba(15,73,168,0.66) ;
 }
+.sidebar_room {
+	float:left;
+	border-right:1px solid black;
+	padding:10px;
+	overflow:scroll-y;
+}
+.chat {
+	float:left;
+	max-width:80%;
+	//height:250px;
+	overflow:scroll-y;
+	padding:10px;
+}
+
+#conversation {
+	height: 100%;
+}
+
+#data {
+
+}
+
+#datasend {
+
+}
+
+
 /*#77C9D4
 #57BC90
 #015249

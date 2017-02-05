@@ -1,6 +1,8 @@
-{% extends "components/layout.html" %} 
+{% extends "components/layout.html" %}
+{% block header %}
+	{% include "partials/header-min.html" %}
+{% endblock %}
+
 {% block content %}
-
-{% include "partials/list.html" %}
-
+	{% include "partials/list.html" %}
 {% endblock %}
