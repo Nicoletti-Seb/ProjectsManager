@@ -1,3 +1,5 @@
+var Backbone = require('backbone');
+
 /**
  * Created by 53js-Seb on 10/10/2016.
  */
@@ -12,14 +14,8 @@
  * }
  */
 /*eslint-disable no-undef*/
-module.exports = (function ClassMap() {
+module.exports = Backbone.Model.extend((function ClassMap() {
 	var markers = [];
-
-	var MapObject = function MapObject(element, options) {
-		this.el = element;
-		this.opt = options;
-		this.mapApi = new google.maps.Map(this.el, getMapOptions());
-	};
 
 	function getMapOptions() {
 		return {
@@ -27,6 +23,13 @@ module.exports = (function ClassMap() {
 			zoom: 6
 		};
 	}
+
+	function initialize(element, options) {
+		this.el = element;
+		this.opt = options;
+		this.mapApi = new google.maps.Map(this.el, getMapOptions());
+	}
+
 
 	function addMarker(poi) {
 		var marker = new google.maps.Marker({
@@ -40,12 +43,15 @@ module.exports = (function ClassMap() {
 		});
 
 		// Event Listener
-		if (this.opt.markerClickEvent)
+		if (this.opt.markerClickEvent) {
 			google.maps.event.addListener(marker, 'click', this.opt.markerClickEvent);
-		if (this.opt.markerStartDragEvent)
+		}
+		if (this.opt.markerStartDragEvent) {
 			google.maps.event.addListener(marker, 'dragstart', this.opt.markerStartDragEvent);
-		if (this.opt.markerEndDragEvent)
+		}
+		if (this.opt.markerEndDragEvent) {
 			google.maps.event.addListener(marker, 'dragend', this.opt.markerEndDragEvent);
+		}
 
 		marker.poi = poi;
 		markers.push(marker);
@@ -79,13 +85,12 @@ module.exports = (function ClassMap() {
 		new google.maps.event.trigger(obj, nameEvent);
 	}
 
-	MapObject.prototype = {
+	return {
+		initialize: initialize,
 		getMarker: getMarker,
 		addMarker: addMarker,
 		removeMarker: removeMarker,
 		trigger: trigger
 	};
-
-	return MapObject;
-})();
-/*eslint-enable no-undef*/ 
+})());
+/*eslint-enable no-undef*/

@@ -1,0 +1,18 @@
+.home{
+	.table-projects {
+		width: 70%;
+		margin: auto;
+		
+		.panel-project {
+			display: inline-block;
+			padding: 20px;
+			margin: 20px;
+			-webkit-border-radius: 7px;
+			color: #FFFFFF;
+			background: #015249;
+			-webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+			box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+			text-shadow: -1px -1px 0 rgba(15,73,168,0.66) ;
+		}
+	}
+}
