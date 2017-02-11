@@ -1,9 +1,10 @@
 var http = require('http');
-var Multiroom = require('./modules_server/multiroomChatServer');
+var Session = require('./modules_server/session');
 //var MongodbServer = require('./modules_server/mongodbServer');
 
 module.exports = function NodeServer(app, hostname, port) {
 	var server = null;
+	//var users = [];
 
 	function onStart() {
 		// eslint-disable-next-line no-console
@@ -13,10 +14,14 @@ module.exports = function NodeServer(app, hostname, port) {
 	function start() {
 		server = http.createServer(app);
 		server.on('listening', onStart);
-		// create chat
-		Multiroom.initMultiRoomChat(server);
+
+		//Create session
+		Session.createSession(server);
+
 		// connect mongodb
 		//MongodbServer = new MongodbServer();
+
+		//start server
 		server.listen(port);
 	}
 

@@ -6,7 +6,7 @@ module.exports = (function MongodbServerClass() {
 	var mongodb = null;
 
 	function connect() {
-		if(mongodb) {
+		if (mongodb) {
 			return Promise.resolve();
 		}
 

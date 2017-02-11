@@ -1,0 +1,40 @@
+var Backbone = require('backbone');
+
+module.exports = Backbone.View.extend({
+
+	template: require('../templates/repository.html'),
+
+	events: {
+		'click .enter': 'onClickEnter',
+		'click .previous': 'onClickPrevious'
+	},
+
+	render: function render() {
+		var html = this.template.render({ files: this.model.files });
+		this.$el.html(html);
+		return this;
+	},
+
+	onClickEnter: function onClickEnter() {
+		this.model.toDirectory('monDossier');
+	},
+
+	onClickPrevious: function onClickPrevious() {
+		this.model.toParent();
+	},
+
+	getOptions: function getOptions() {
+		return {
+			onUpdateFiles: this.onUpdateFiles.bind(this)
+		};
+	},
+
+	onError: function onError(err) {
+		console.log('onError ', err);
+	},
+
+	onUpdateFiles: function onUpdateFiles(files) {
+		console.log('onUpdateFiles ', files);
+		this.render();
+	}
+});

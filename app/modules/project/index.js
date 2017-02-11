@@ -1,20 +1,23 @@
 'use strict';
 
-var Backbone = require('backbone');
-
 var Map = require('./scripts/map');
 var Room = require('./scripts/room');
+var Repository = require('./scripts/repository');
+
 var MapView = require('./scripts/map-view');
 var RoomView = require('./scripts/room-view');
+var RepositoryView = require('./scripts/repository-view');
 
 
 //Model
 var map = null;
 var room = new Room();
+var repository = new Repository();
 
 //Views
 var mapView = new MapView({ model: map });
 var roomView = new RoomView({ model: room });
+var repositoryView = new RepositoryView({ model: repository });
 
 
 //Loading async map
@@ -30,6 +33,9 @@ module.exports = {
 		case 'map':
 			this.initMapPage($container);
 			break;
+		case 'repository':
+			this.initRepositoryPage($container);
+			break;
 		default:
 			this.initRoomPage($container);
 		}
@@ -38,6 +44,7 @@ module.exports = {
 	stop: function stopProject() {
 		//Model
 		room.stop();
+		repository.stop();
 
 		//View
 		mapView.free();
@@ -45,6 +52,9 @@ module.exports = {
 
 		roomView.free();
 		roomView.remove();
+
+		repositoryView.free();
+		repositoryView.remove();
 	},
 
 	initMapPage: function initMapPage($container) {
@@ -58,5 +68,14 @@ module.exports = {
 
 		//init model
 		room.connect(roomView.getOptions());
+	},
+
+	initRepositoryPage: function initRepositoryPage($container) {
+		$container.append(repositoryView.el);
+		repositoryView.delegateEvents().render();
+
+		//init model
+		repository.connect(repositoryView.getOptions());
+		repository.getFiles();
 	}
 };
