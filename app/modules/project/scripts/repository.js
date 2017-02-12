@@ -57,6 +57,14 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		socket.emit('toDirectory', dirname);
 	}
 
+	function createDirectory(dirname) {
+		if (!socket) {
+			return;
+		}
+
+		socket.emit('createDirectory', dirname);
+	}
+
 	function stop() {
 		if (!socket) {
 			return;
@@ -71,6 +79,7 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		getFiles: getFiles,
 		toParent: toParent,
 		toDirectory: toDirectory,
+		createDirectory: createDirectory,
 		files: files,
 		stop: stop
 	};

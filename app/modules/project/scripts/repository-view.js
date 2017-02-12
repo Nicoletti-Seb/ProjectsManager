@@ -7,7 +7,8 @@ module.exports = Backbone.View.extend({
 
 	events: {
 		'click .directory': 'onClickEnter',
-		'click .previous': 'onClickPrevious'
+		'click .previous': 'onClickPrevious',
+		'click .create-directory': 'onClickCreateDirectory'
 	},
 
 	render: function render() {
@@ -22,6 +23,10 @@ module.exports = Backbone.View.extend({
 
 	onClickPrevious: function onClickPrevious() {
 		this.model.toParent();
+	},
+
+	onClickCreateDirectory: function onClickCreateDirectory() {
+		this.model.createDirectory(prompt('Entrer le nom du nouveau dossier: ', 'Nouveau Dossier'))
 	},
 
 	getOptions: function getOptions() {

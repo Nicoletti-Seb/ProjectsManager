@@ -1,13 +1,13 @@
 var fs = require('fs');
 var path = require('path');
 
-
+/* eslint-disable vars-on-top */
 exports.listen = function repositoryService(io, socket) {
 	var rootDir = path.join(__dirname, '..', '..', 'repositories', '1');
 	var currentDir = rootDir;
 
 
-	function getfiles() {
+	function sendFiles() {
 		fs.readdir(currentDir, function onReaddir(err, filenames) {
 			if (err) {
 				socket.emit('updateFiles', { error: err });
@@ -38,7 +38,7 @@ exports.listen = function repositoryService(io, socket) {
 	}
 
 
-	socket.on('getFiles', getfiles);
+	socket.on('getFiles', sendFiles);
 
 	socket.on('toParent', function toParent() {
 		var newDir = path.join(currentDir, '..');
@@ -49,11 +49,16 @@ exports.listen = function repositoryService(io, socket) {
 		}
 
 		currentDir = newDir;
-		getfiles();
+		sendFiles();
 	});
 
 
 	socket.on('toDirectory', function toDirectory(dirname) {
+		if (!dirname) {
+			socket.emit('updateFiles', { error: 'Invalid parameters' });
+			return;
+		}
+
 		var newDir = path.join(currentDir, dirname);
 		fs.access(newDir, function onAccessDir(err) {
 			if (err) {
@@ -62,7 +67,25 @@ exports.listen = function repositoryService(io, socket) {
 			}
 
 			currentDir = newDir;
-			getfiles();
+			sendFiles();
+		});
+	});
+
+	socket.on('createDirectory', function createDirectory(dirname) {
+		if (!dirname) {
+			socket.emit('updateFiles', { error: 'Invalid parameters' });
+			return;
+		}
+
+		var newDir = path.join(currentDir, dirname);
+		fs.mkdir(newDir, function mkdir(err) {
+			if (err) {
+				socket.emit('updateFiles', { error: err });
+				return;
+			}
+
+			sendFiles();
 		});
 	});
 };
+/* eslint-enable vars-on-top */
