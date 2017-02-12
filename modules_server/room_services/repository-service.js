@@ -87,5 +87,56 @@ exports.listen = function repositoryService(io, socket) {
 			sendFiles();
 		});
 	});
+
+
+	function deleteFolderSync(pathFolder) {
+		fs.readdirSync(pathFolder).forEach(function deleteFile(filename) {
+			var newPath = path.join(pathFolder, filename);
+			var stats = fs.statSync(newPath);
+
+			if (stats.isDirectory()) {
+				deleteFolderSync(newPath);
+			} else {
+				fs.unlinkSync(newPath);
+			}
+		});
+
+		fs.rmdirSync(pathFolder);
+	}
+
+	socket.on('deleteDirectory', function deleteDirectory(dirname) {
+		if (!dirname) {
+			socket.emit('updateFiles', { error: 'Invalid parameters' });
+			return;
+		}
+
+		var pathDir = path.join(currentDir, dirname);
+		fs.access(pathDir, function onAccessDir(err) {
+			if (err) {
+				socket.emit('updateFiles', { error: err });
+				return;
+			}
+
+			deleteFolderSync(pathDir);
+			sendFiles();
+		});
+	});
+
+	socket.on('deleteFile', function deleteFile(filename) {
+		if (!filename) {
+			socket.emit('updateFiles', { error: 'Invalid parameters' });
+			return;
+		}
+
+		var file = path.join(currentDir, filename);
+		fs.unlink(file, function onDeleteFile(err) {
+			if (err) {
+				socket.emit('updateFiles', { error: err });
+				return;
+			}
+
+			sendFiles();
+		});
+	});
 };
 /* eslint-enable vars-on-top */

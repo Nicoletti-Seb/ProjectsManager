@@ -33,13 +33,30 @@
 	.directory {
 		cursor: pointer;
 
-		&:before {
+		&.icon:before {
 			content: "\f114";
 			font-family: "FontAwesome";
 			size: 30px;
 			margin-right: 5px;
 			color: blue;
 		}
+	}
+
+	.file {
+		&.icon:before {
+			content: "\f016";
+			font-family: "FontAwesome";
+			size: 30px;
+			margin-right: 5px;
+			color: blue;
+		}
+
+	}
+
+	.delete{
+		size: 30px;
+		margin-left: 5px;
+		color: blue;
 	}
 
 }

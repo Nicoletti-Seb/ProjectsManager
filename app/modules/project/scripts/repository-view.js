@@ -6,9 +6,11 @@ module.exports = Backbone.View.extend({
 	template: require('../templates/repository.html'),
 
 	events: {
-		'click .directory': 'onClickEnter',
+		'click .directory.enter': 'onClickEnter',
 		'click .previous': 'onClickPrevious',
-		'click .create-directory': 'onClickCreateDirectory'
+		'click .create-directory': 'onClickCreateDirectory',
+		'click .directory.delete': 'onClickDeleteDirectory',
+		'click .file.delete': 'onClickDeleteFile'
 	},
 
 	render: function render() {
@@ -26,7 +28,15 @@ module.exports = Backbone.View.extend({
 	},
 
 	onClickCreateDirectory: function onClickCreateDirectory() {
-		this.model.createDirectory(prompt('Entrer le nom du nouveau dossier: ', 'Nouveau Dossier'))
+		this.model.createDirectory(prompt('Entrer le nom du nouveau dossier: ', 'Nouveau Dossier'));
+	},
+
+	onClickDeleteDirectory: function onClickDeleteDirectory(e) {
+		this.model.deleteDirectory($(e.currentTarget).data('dirname'));
+	},
+
+	onClickDeleteFile: function onClickDeleteFile(e) {
+		this.model.deleteFile($(e.currentTarget).data('filename'));
 	},
 
 	getOptions: function getOptions() {

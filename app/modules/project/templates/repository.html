@@ -1,15 +1,17 @@
 <section class="repository">
 	<h1>Repository</h1>
-
-
-	<h2>Files</h2>
 	<ul>
 		{% for file in files %}
-			{% if file.isDirectory %}
-		  		<li class="directory" data-dirname="{{ file.filename }}">{{ file.filename }}</li>
-		  	{% else %}
-		  		<li class="file">{{ file.filename }}</li>
-		  	{% endif %}
+			<li>
+				{% if file.isDirectory %}
+		  			<span class="directory enter icon" data-dirname="{{ file.filename }}">{{ file.filename }}</span>
+		  			<i class="fa fa-trash-o directory delete" data-dirname="{{ file.filename }}"></i>
+		  		
+		  		{% else %}
+		  			<span class="file icon" data-filename="{{ file.filename }}">{{ file.filename }}</span>
+		  			<i class="fa fa-trash-o file delete" data-filename="{{ file.filename }}"></i>
+		  		{% endif %}
+		  	</li>
 		{% else %}
 		  <li>Dossier vide</li>
 		{% endfor %}

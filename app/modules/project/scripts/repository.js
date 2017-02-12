@@ -65,6 +65,22 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		socket.emit('createDirectory', dirname);
 	}
 
+	function deleteDirectory(dirname) {
+		if (!socket) {
+			return;
+		}
+
+		socket.emit('deleteDirectory', dirname);
+	}
+
+	function deleteFile(filename) {
+		if (!socket) {
+			return;
+		}
+
+		socket.emit('deleteFile', filename);
+	}
+
 	function stop() {
 		if (!socket) {
 			return;
@@ -80,6 +96,8 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		toParent: toParent,
 		toDirectory: toDirectory,
 		createDirectory: createDirectory,
+		deleteDirectory: deleteDirectory,
+		deleteFile: deleteFile,
 		files: files,
 		stop: stop
 	};
