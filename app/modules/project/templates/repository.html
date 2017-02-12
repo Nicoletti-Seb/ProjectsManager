@@ -5,12 +5,15 @@
 	<h2>Files</h2>
 	<ul>
 		{% for file in files %}
-		  <li>{{ file.filename }}</li>
+			{% if file.isDirectory %}
+		  		<li class="directory" data-dirname="{{ file.filename }}">{{ file.filename }}</li>
+		  	{% else %}
+		  		<li class="file">{{ file.filename }}</li>
+		  	{% endif %}
 		{% else %}
 		  <li>Dossier vide</li>
 		{% endfor %}
 	</ul>
 
-	<button type="button" class="enter" >Enter</button>
 	<button type="button" class="previous" >Precedent</button>
 </section>

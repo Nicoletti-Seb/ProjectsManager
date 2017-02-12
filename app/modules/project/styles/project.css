@@ -27,3 +27,19 @@
 		height: 600px;
 	}		
 }
+
+
+.repository {
+	.directory {
+		cursor: pointer;
+
+		&:before {
+			content: "\f114";
+			font-family: "FontAwesome";
+			size: 30px;
+			margin-right: 5px;
+			color: blue;
+		}
+	}
+
+}

@@ -1,3 +1,4 @@
+var $ = require('jquery');
 var Backbone = require('backbone');
 
 module.exports = Backbone.View.extend({
@@ -5,7 +6,7 @@ module.exports = Backbone.View.extend({
 	template: require('../templates/repository.html'),
 
 	events: {
-		'click .enter': 'onClickEnter',
+		'click .directory': 'onClickEnter',
 		'click .previous': 'onClickPrevious'
 	},
 
@@ -15,8 +16,8 @@ module.exports = Backbone.View.extend({
 		return this;
 	},
 
-	onClickEnter: function onClickEnter() {
-		this.model.toDirectory('monDossier');
+	onClickEnter: function onClickEnter(e) {
+		this.model.toDirectory($(e.currentTarget).data('dirname'));
 	},
 
 	onClickPrevious: function onClickPrevious() {
@@ -34,7 +35,11 @@ module.exports = Backbone.View.extend({
 	},
 
 	onUpdateFiles: function onUpdateFiles(files) {
-		console.log('onUpdateFiles ', files);
+		if (files.error) {
+			console.log(files.error);
+			return;
+		}
+
 		this.render();
 	}
 });

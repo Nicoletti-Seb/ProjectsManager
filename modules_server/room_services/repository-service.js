@@ -10,7 +10,7 @@ exports.listen = function repositoryService(io, socket) {
 	function getfiles() {
 		fs.readdir(currentDir, function onReaddir(err, filenames) {
 			if (err) {
-				socket.emit('updateFiles', err);
+				socket.emit('updateFiles', { error: err });
 				return;
 			}
 
@@ -24,7 +24,7 @@ exports.listen = function repositoryService(io, socket) {
 							return;
 						}
 
-						resolve(Object.assign(stats, { filename: filename }));
+						resolve(Object.assign(stats, { filename: filename, isDirectory: stats.isDirectory() }));
 					});
 				}));
 			});
@@ -32,7 +32,7 @@ exports.listen = function repositoryService(io, socket) {
 			Promise.all(promises)
 				.then(function onGetFiles(results) { socket.emit('updateFiles', results); })
 				.catch(function onErrorGetFiles(errGetFiles) {
-					socket.emit('updateFiles', errGetFiles);
+					socket.emit('updateFiles', { error: errGetFiles });
 				});
 		});
 	}
@@ -57,7 +57,7 @@ exports.listen = function repositoryService(io, socket) {
 		var newDir = path.join(currentDir, dirname);
 		fs.access(newDir, function onAccessDir(err) {
 			if (err) {
-				socket.emit('updateFiles', err);
+				socket.emit('updateFiles', { error: err });
 				return;
 			}
 

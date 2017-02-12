@@ -16,9 +16,10 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 	var options = {};
 
 	function onUpdateFiles(newfiles) {
-		console.log(newfiles);
-		files.splice(0, files.length);
-		Array.prototype.push.apply(files, newfiles);
+		if (!newfiles.error) {
+			files.splice(0, files.length);
+			Array.prototype.push.apply(files, newfiles);
+		}
 
 		if (options.onUpdateFiles) {
 			options.onUpdateFiles(newfiles);
