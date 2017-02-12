@@ -10,7 +10,8 @@ module.exports = Backbone.View.extend({
 		'click .previous': 'onClickPrevious',
 		'click .create-directory': 'onClickCreateDirectory',
 		'click .directory.delete': 'onClickDeleteDirectory',
-		'click .file.delete': 'onClickDeleteFile'
+		'click .file.delete': 'onClickDeleteFile',
+		'click .edit': 'onClickRename'
 	},
 
 	render: function render() {
@@ -37,6 +38,11 @@ module.exports = Backbone.View.extend({
 
 	onClickDeleteFile: function onClickDeleteFile(e) {
 		this.model.deleteFile($(e.currentTarget).data('filename'));
+	},
+
+	onClickRename: function onClickRename(e) {
+		var name = $(e.currentTarget).data('name');
+		this.model.rename(name, prompt('Entrer le nouveau nom: ', name));
 	},
 
 	getOptions: function getOptions() {

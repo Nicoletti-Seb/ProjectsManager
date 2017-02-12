@@ -81,6 +81,14 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		socket.emit('deleteFile', filename);
 	}
 
+	function rename(oldname, newname) {
+		if (!socket) {
+			return;
+		}
+
+		socket.emit('rename', oldname, newname);
+	}
+
 	function stop() {
 		if (!socket) {
 			return;
@@ -99,6 +107,7 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		deleteDirectory: deleteDirectory,
 		deleteFile: deleteFile,
 		files: files,
+		rename: rename,
 		stop: stop
 	};
 })());

@@ -90,7 +90,7 @@ exports.listen = function repositoryService(io, socket) {
 
 
 	function deleteFolderSync(pathFolder) {
-		fs.readdirSync(pathFolder).forEach(function deleteFile(filename) {
+		fs.readdirSync(pathFolder).forEach(function loopFiles(filename) {
 			var newPath = path.join(pathFolder, filename);
 			var stats = fs.statSync(newPath);
 
@@ -130,6 +130,26 @@ exports.listen = function repositoryService(io, socket) {
 
 		var file = path.join(currentDir, filename);
 		fs.unlink(file, function onDeleteFile(err) {
+			if (err) {
+				socket.emit('updateFiles', { error: err });
+				return;
+			}
+
+			sendFiles();
+		});
+	});
+
+
+	socket.on('rename', function rename(oldname, newname) {
+		if (!oldname || !newname) {
+			socket.emit('updateFiles', { error: 'Invalid parameters' });
+			return;
+		}
+
+		var oldPath = path.join(currentDir, oldname);
+		var newPath = path.join(currentDir, newname);
+
+		fs.rename(oldPath, newPath, function onRename(err) {
 			if (err) {
 				socket.emit('updateFiles', { error: err });
 				return;

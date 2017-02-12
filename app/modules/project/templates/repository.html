@@ -6,10 +6,12 @@
 				{% if file.isDirectory %}
 		  			<span class="directory enter icon" data-dirname="{{ file.filename }}">{{ file.filename }}</span>
 		  			<i class="fa fa-trash-o directory delete" data-dirname="{{ file.filename }}"></i>
+		  			<i class="fa fa-pencil edit" data-name="{{ file.filename }}"></i>
 		  		
 		  		{% else %}
 		  			<span class="file icon" data-filename="{{ file.filename }}">{{ file.filename }}</span>
 		  			<i class="fa fa-trash-o file delete" data-filename="{{ file.filename }}"></i>
+		  			<i class="fa fa-pencil edit" data-name="{{ file.filename }}"></i>
 		  		{% endif %}
 		  	</li>
 		{% else %}
