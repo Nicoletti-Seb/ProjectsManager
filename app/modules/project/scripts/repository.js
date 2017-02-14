@@ -1,5 +1,5 @@
 var Backbone = require('backbone');
-
+var ss = require('socket.io-stream');
 /*
 	Ref: https://www.npmjs.com/package/socket.io-client
 
@@ -10,10 +10,12 @@ var Backbone = require('backbone');
 		updateFiles: function (files)
 	}
 */
+/* eslint-disable vars-on-top */
 module.exports = Backbone.Model.extend((function RepositoryClass() {
 	var socket = null;
 	var files = [];
 	var options = {};
+
 
 	function onUpdateFiles(newfiles) {
 		if (!newfiles.error) {
@@ -89,6 +91,41 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		socket.emit('rename', oldname, newname);
 	}
 
+
+	//Ref : http://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link
+	var saveData = (function createSaveData() {
+		var a = document.createElement('a');
+		document.body.appendChild(a);
+		a.style = 'display: none';
+
+		return function SaveDataFunction(data, filename) {
+			var blob = new Blob(data);
+			var url = window.URL.createObjectURL(blob);
+			a.href = url;
+			a.download = filename;
+			a.click();
+			window.URL.revokeObjectURL(url);
+		};
+	}());
+
+	function download(filename) {
+		if (!socket) {
+			return;
+		}
+
+		var fileBuffer = [];
+		var stream = ss.createStream();
+		stream.on('data', function onData(chunk) {
+			fileBuffer.push(chunk);
+		});
+
+		stream.on('end', function onEnd() {
+			saveData(fileBuffer, filename);
+		});
+
+		ss(socket).emit('download', stream, filename);
+	}
+
 	function stop() {
 		if (!socket) {
 			return;
@@ -108,6 +145,8 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		deleteFile: deleteFile,
 		files: files,
 		rename: rename,
+		download: download,
 		stop: stop
 	};
 })());
+/* eslint-enable vars-on-top */

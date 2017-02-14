@@ -1,11 +1,11 @@
 var fs = require('fs');
 var path = require('path');
+var ss = require('socket.io-stream');
 
 /* eslint-disable vars-on-top */
 exports.listen = function repositoryService(io, socket) {
 	var rootDir = path.join(__dirname, '..', '..', 'repositories', '1');
 	var currentDir = rootDir;
-
 
 	function sendFiles() {
 		fs.readdir(currentDir, function onReaddir(err, filenames) {
@@ -156,6 +156,18 @@ exports.listen = function repositoryService(io, socket) {
 			}
 
 			sendFiles();
+		});
+	});
+
+	ss(socket).on('download', function onDownload(stream, filename) {
+		var pathFile = path.join(currentDir, filename);
+		fs.access(pathFile, function onAccessDir(err) {
+			if (err) {
+				socket.emit('updateFiles', { error: err });
+				return;
+			}
+
+			fs.createReadStream(pathFile).pipe(stream);
 		});
 	});
 };
