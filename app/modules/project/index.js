@@ -22,9 +22,15 @@ var repositoryView = new RepositoryView({ model: repository });
 
 //Loading async map
 window.onLoadMap = function onLoadMap() {
-	console.log('onLoadMap ', mapView.el.querySelector('.map'));
 	map = new Map(mapView.el.querySelector('.map'), {});
 	mapView.model = map;
+
+	map.getMyLocation()
+		.then(function onGetMyLocation(position) {
+			map.addMarker(position.coords);
+		}).catch(function errorOnGetMyLocation(err) {
+			console.log(err);
+		});
 };
 
 module.exports = {
@@ -46,14 +52,14 @@ module.exports = {
 		room.stop();
 		repository.stop();
 
+		if (map) {
+			map.close();
+		}
+
 		//View
-		mapView.free();
+		console.log(mapView);
 		mapView.remove();
-
-		roomView.free();
 		roomView.remove();
-
-		repositoryView.free();
 		repositoryView.remove();
 	},
 

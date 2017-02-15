@@ -21,10 +21,7 @@ module.exports = {
 	},
 
 	stop: function stopMonitor() {
-		formProjectView.free();
 		formProjectView.remove();
-
-		homeView.free();
 		homeView.remove();
 	}
 };

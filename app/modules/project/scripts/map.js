@@ -33,7 +33,7 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 
 	function addMarker(poi) {
 		var marker = new google.maps.Marker({
-			position: new google.maps.LatLng(poi.y, poi.x),
+			position: new google.maps.LatLng(poi.latitude, poi.longitude),
 			map: this.mapApi,
 			title: poi.name,
 			draggable: this.opt.markerDraggable || false,
@@ -85,12 +85,32 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 		new google.maps.event.trigger(obj, nameEvent);
 	}
 
+	function getMyLocation() {
+		if (!navigator.geolocation) {
+			return Promise.reject('Geolocation not supported');
+		}
+
+		return new Promise(function onGetMyLocation(resolve) {
+			navigator.geolocation.getCurrentPosition(resolve);
+		});
+	}
+
+	function close() {
+		markers.forEach(function onDeleteMarker(marker) {
+			marker.setMap(null);
+		});
+
+		markers = [];
+	}
+
 	return {
 		initialize: initialize,
 		getMarker: getMarker,
 		addMarker: addMarker,
 		removeMarker: removeMarker,
-		trigger: trigger
+		trigger: trigger,
+		getMyLocation: getMyLocation,
+		close: close
 	};
 })());
 /*eslint-enable no-undef*/

@@ -55,7 +55,7 @@ module.exports = Backbone.Model.extend((function RoomClass() {
 			return;
 		}
 
-		socket.stop();
+		socket.disconnect();
 		socket = null;
 	}
 

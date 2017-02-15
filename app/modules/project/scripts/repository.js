@@ -142,7 +142,7 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 			return;
 		}
 
-		socket.stop();
+		socket.disconnect();
 		socket = null;
 	}
 
