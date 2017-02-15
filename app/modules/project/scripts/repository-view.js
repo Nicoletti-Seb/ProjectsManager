@@ -1,6 +1,7 @@
 var $ = require('jquery');
 var Backbone = require('backbone');
 
+/* eslint-disable vars-on-top */
 module.exports = Backbone.View.extend({
 
 	template: require('../templates/repository.html'),
@@ -12,7 +13,12 @@ module.exports = Backbone.View.extend({
 		'click .directory.delete': 'onClickDeleteDirectory',
 		'click .file.delete': 'onClickDeleteFile',
 		'click .edit': 'onClickRename',
-		'dblclick .file.download': 'onDblClickDownload'
+		'dblclick .file.download': 'onDblClickDownload',
+		'dragover .drop-zone': 'onDragOverFiles',
+		'drop .drop-zone': 'onDropFiles',
+		'dragend .drop-zone': 'onCancelDrag',
+		'dragleave .drop-zone': 'onCancelDrag'
+
 	},
 
 	render: function render() {
@@ -50,6 +56,33 @@ module.exports = Backbone.View.extend({
 		this.model.download($(e.currentTarget).data('filename'));
 	},
 
+	onDragOverFiles: function onDragOverFiles(e) {
+		//cancel default action
+		e.stopPropagation();
+		e.preventDefault();
+
+		//Copy files
+		e.originalEvent.dataTransfer.dropEffect = 'copy';
+
+		//css
+		$(e.currentTarget).addClass('drag-over');
+	},
+
+	onCancelDrag: function onCancelDrag(e) {
+		$(e.currentTarget).removeClass('drag-over');
+	},
+
+	onDropFiles: function onDropFiles(e) {
+		//cancel default action
+		e.stopPropagation();
+		e.preventDefault();
+
+		var files = e.originalEvent.dataTransfer.files;
+		for(var i = 0, f; f = files[i]; i++) {
+			this.model.upload(f);
+		}
+	},
+
 	getOptions: function getOptions() {
 		return {
 			onUpdateFiles: this.onUpdateFiles.bind(this)
@@ -69,3 +102,4 @@ module.exports = Backbone.View.extend({
 		this.render();
 	}
 });
+/* eslint-enable vars-on-top */

@@ -126,6 +126,17 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		ss(socket).emit('download', stream, filename);
 	}
 
+	function upload(file) {
+		if (!socket) {
+			return;
+		}
+
+		var stream = ss.createStream();
+
+		ss(socket).emit('upload', stream, file.name);
+		ss.createBlobReadStream(file).pipe(stream);
+	}
+
 	function stop() {
 		if (!socket) {
 			return;
@@ -146,6 +157,7 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		files: files,
 		rename: rename,
 		download: download,
+		upload: upload,
 		stop: stop
 	};
 })());

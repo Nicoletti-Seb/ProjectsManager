@@ -65,4 +65,7 @@
 		color: blue;
 	}
 
+	&.drag-over{
+		background-color: #0275d8;
+	}
 }

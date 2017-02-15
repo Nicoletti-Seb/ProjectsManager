@@ -160,6 +160,11 @@ exports.listen = function repositoryService(io, socket) {
 	});
 
 	ss(socket).on('download', function onDownload(stream, filename) {
+		if (!filename) {
+			socket.emit('updateFiles', { error: 'Invalid parameters' });
+			return;
+		}
+
 		var pathFile = path.join(currentDir, filename);
 		fs.access(pathFile, function onAccessDir(err) {
 			if (err) {
@@ -168,6 +173,27 @@ exports.listen = function repositoryService(io, socket) {
 			}
 
 			fs.createReadStream(pathFile).pipe(stream);
+		});
+	});
+
+	ss(socket).on('upload', function onUpload(stream, filename) {
+		if (!filename) {
+			socket.emit('updateFiles', { error: 'Invalid parameters' });
+			return;
+		}
+
+		var pathFile = path.join(currentDir, filename);
+		fs.access(pathFile, function onAccessDir(err) {
+			if (!err) {
+				socket.emit('updateFiles', { error: 'File already exist' });
+				return;
+			}
+
+			stream.on('end', function onEnd() {
+				sendFiles();
+			});
+
+			stream.pipe(fs.createWriteStream(pathFile));
 		});
 	});
 };
