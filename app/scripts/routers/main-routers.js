@@ -18,6 +18,7 @@ var MainRouter = Backbone.Router.extend({
 
 	routes: {
 		'': 'connection',
+		register: 'register',
 		'home(/:page)': 'home',
 		'project(/:page)': 'project',
 		'*all': 'connection' // Last item / First match
@@ -37,6 +38,11 @@ var MainRouter = Backbone.Router.extend({
 	connection: function connectionRoute() {
 		currentModule = connection;
 		connection.start($content);
+	},
+
+	register: function registerRoute() {
+		currentModule = connection;
+		connection.start($content, 'register');
 	},
 
 	home: function homeRoute(page) {
