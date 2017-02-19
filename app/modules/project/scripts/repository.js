@@ -28,9 +28,9 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		}
 	}
 
-	function connect(opt) {
+	function init(session, opt) {
+		socket = session;
 		options = opt;
-		socket = require('socket.io-client')();
 		socket.on('error', options.onError);
 		socket.on('updateFiles', onUpdateFiles);
 	}
@@ -137,17 +137,8 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		ss.createBlobReadStream(file).pipe(stream);
 	}
 
-	function stop() {
-		if (!socket) {
-			return;
-		}
-
-		socket.disconnect();
-		socket = null;
-	}
-
 	return {
-		connect: connect,
+		init: init,
 		getFiles: getFiles,
 		toParent: toParent,
 		toDirectory: toDirectory,
@@ -157,8 +148,7 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		files: files,
 		rename: rename,
 		download: download,
-		upload: upload,
-		stop: stop
+		upload: upload
 	};
 })());
 /* eslint-enable vars-on-top */

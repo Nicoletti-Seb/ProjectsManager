@@ -15,6 +15,7 @@ var Backbone = require('backbone');
  */
 /*eslint-disable no-undef*/
 module.exports = Backbone.Model.extend((function ClassMap() {
+	var socket = null;
 	var markers = [];
 
 	function getMapOptions() {

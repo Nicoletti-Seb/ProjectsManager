@@ -16,11 +16,9 @@ module.exports = Backbone.Model.extend((function RoomClass() {
 	var socket = null;
 	var options = {};
 
-	function connect(opt) {
+	function init(session, opt) {
+		socket = session;
 		options = opt;
-		socket = require('socket.io-client')();
-		socket.on('error', options.onError);
-		socket.on('connect', options.onConnect);
 		socket.on('updatechat', options.onUpdateChat);
 		socket.on('updaterooms', options.onUpdateRooms);
 	}
@@ -50,20 +48,10 @@ module.exports = Backbone.Model.extend((function RoomClass() {
 		socket.emit('switchRoom', room);
 	}
 
-	function stop() {
-		if (!socket) {
-			return;
-		}
-
-		socket.disconnect();
-		socket = null;
-	}
-
 	return {
-		connect: connect,
+		init: init,
 		addUser: addUser,
 		sendMessage: sendMessage,
-		switchRoom: switchRoom,
-		stop: stop
+		switchRoom: switchRoom
 	};
 })());

@@ -5,10 +5,17 @@ var Backbone = require('backbone');
 
 /* eslint-disable import/no-unresolved */
 
+var socket = require('socket.io-client')();
+
+//--- TODO remove
+socket.emit('authentication', 'root', 'root');
+socket.emit('coonnectToProject', 1);
+//---
+
 //module list
-var connection = require('connection');
-var home = require('home');
-var project = require('project');
+var connection = require('connection')(socket);
+var home = require('home')(socket);
+var project = require('project')(socket);
 /* eslint-enable import/no-unresolved */
 
 var $content = $('.content');

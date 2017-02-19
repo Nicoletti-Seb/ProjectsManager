@@ -10,6 +10,7 @@ var RepositoryView = require('./scripts/repository-view');
 
 
 //Model
+var socket = null;
 var map = null;
 var room = new Room();
 var repository = new Repository();
@@ -33,55 +34,55 @@ window.onLoadMap = function onLoadMap() {
 		});
 };
 
-module.exports = {
-	start: function startProject($container, page) {
-		switch (page) {
-		case 'map':
-			this.initMapPage($container);
-			break;
-		case 'repository':
-			this.initRepositoryPage($container);
-			break;
-		default:
-			this.initRoomPage($container);
+module.exports = function main(session) {
+	socket = session;
+
+	return {
+		start: function startProject($container, page) {
+			switch (page) {
+			case 'map':
+				this.initMapPage($container);
+				break;
+			case 'repository':
+				this.initRepositoryPage($container);
+				break;
+			default:
+				this.initRoomPage($container);
+			}
+		},
+
+		stop: function stopProject() {
+			if (map) {
+				map.close();
+			}
+
+			//View
+			console.log(mapView);
+			mapView.remove();
+			roomView.remove();
+			repositoryView.remove();
+		},
+
+		initMapPage: function initMapPage($container) {
+			$container.append(mapView.el);
+			mapView.delegateEvents().render();
+		},
+
+		initRoomPage: function initRoomPage($container) {
+			$container.append(roomView.el);
+			roomView.delegateEvents().render();
+
+			//init model
+			room.init(socket, roomView.getOptions());
+		},
+
+		initRepositoryPage: function initRepositoryPage($container) {
+			$container.append(repositoryView.el);
+			repositoryView.delegateEvents().render();
+
+			//init model
+			repository.init(socket, repositoryView.getOptions());
+			repository.getFiles();
 		}
-	},
-
-	stop: function stopProject() {
-		//Model
-		room.stop();
-		repository.stop();
-
-		if (map) {
-			map.close();
-		}
-
-		//View
-		console.log(mapView);
-		mapView.remove();
-		roomView.remove();
-		repositoryView.remove();
-	},
-
-	initMapPage: function initMapPage($container) {
-		$container.append(mapView.el);
-		mapView.delegateEvents().render();
-	},
-
-	initRoomPage: function initRoomPage($container) {
-		$container.append(roomView.el);
-		roomView.delegateEvents().render();
-
-		//init model
-		room.connect(roomView.getOptions());
-	},
-
-	initRepositoryPage: function initRepositoryPage($container) {
-		$container.append(repositoryView.el);
-		repositoryView.delegateEvents().render();
-
-		//init model
-		repository.connect(repositoryView.getOptions());
-		repository.getFiles();
-	}
+	};
 };
