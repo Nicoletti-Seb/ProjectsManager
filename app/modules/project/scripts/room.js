@@ -48,10 +48,21 @@ module.exports = Backbone.Model.extend((function RoomClass() {
 		socket.emit('switchRoom', room);
 	}
 
+
+	function close() {
+		if (!socket) {
+			return;
+		}
+
+		socket.off('updatechat');
+		socket.off('updaterooms');
+	}
+
 	return {
 		init: init,
 		addUser: addUser,
 		sendMessage: sendMessage,
-		switchRoom: switchRoom
+		switchRoom: switchRoom,
+		close: close
 	};
 })());

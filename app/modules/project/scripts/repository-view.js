@@ -18,7 +18,6 @@ module.exports = Backbone.View.extend({
 		'drop .drop-zone': 'onDropFiles',
 		'dragend .drop-zone': 'onCancelDrag',
 		'dragleave .drop-zone': 'onCancelDrag'
-
 	},
 
 	render: function render() {

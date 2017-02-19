@@ -1,7 +1,32 @@
+var ChatService = require('./chat-service');
+var MapService = require('./map-service');
+var RepositoryService = require('./repository-service');
 
 exports.listen = function projectService(io, socket, projects) {
+	var chatService = null;
+	var mapService = null;
+	var repositoryService = null;
+
+	function initServices() {
+		chatService = new ChatService(io, socket);
+		mapService = new MapService(io, socket);
+		repositoryService = new RepositoryService(io, socket);
+	}
+	initServices();
+
+	function closeServices() {
+		chatService.close();
+		mapService.close();
+		repositoryService.close();
+	}
+
+	function updateServices() {
+		closeServices();
+		initServices();
+	}
+
 	function searchProjects(id) {
-		for (var i in projects) {
+		for(var i in projects) {
 			if (projects[i].id === id) {
 				return projects[i];
 			}
@@ -10,8 +35,7 @@ exports.listen = function projectService(io, socket, projects) {
 		return null;
 	}
 
-
-	socket.on('coonnectToProject', function onConnectToRoom(projectId) {
+	socket.on('connectToProject', function onConnectToRoom(projectId) {
 		var project = searchProjects(projectId);
 		if (!project) {
 			console.log('project not found ', projectId);
@@ -22,13 +46,47 @@ exports.listen = function projectService(io, socket, projects) {
 		project.currentUsers.push(socket.user);
 
 		socket.join(project.name);
+
+		updateServices();
+
+		//notify users
 		socket.emit('connectedToProject');
-		// echo to room 1 that a person has connected to their room
 		socket.broadcast
 			.to(project.name)
 			.emit('updatechat', 'SERVER', socket.user.login + ' has connected to this room');
 		socket.emit('updateProjects', projects);
 	});
+
+
+	socket.on('disconnectToProject', function onDisconnect() {
+		delete socket.currentUsers[socket.user];
+
+		io.sockets.emit('updateusers', projects);
+
+
+		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+		socket.leave(socket.room);
+	});
+
+	function getProjectsUser(user) {
+		var results = [];
+
+		user.projects.forEach(function getProjectId(idProject) {
+			for (var i in projects) {
+				if (projects[i].id === idProject) {
+					results.push(projects[i]);
+					return;
+				}
+			}
+		});
+
+		return results;
+	}
+
+	socket.on('getProjects', function onGetProjects() {
+		socket.emit('updateProjects', getProjectsUser(socket.user));
+	});
+
 
 	/*socket.on('switchRoom', function onSwitchRoom(newroom) {
 		socket.leave(socket.room);
@@ -45,15 +103,4 @@ exports.listen = function projectService(io, socket, projects) {
 			.emit('updatechat', 'SERVER', socket.username + ' has joined this room');
 		socket.emit('updaterooms', rooms, newroom);
 	});*/
-
-	// when the user disconnects.. perform this
-	socket.on('disconnectToProject', function onDisconnect() {
-		delete socket.currentUsers[socket.user];
-
-		io.sockets.emit('updateusers', projects);
-
-
-		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
-		socket.leave(socket.room);
-	});
 };

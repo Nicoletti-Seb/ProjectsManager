@@ -18,6 +18,7 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 
 
 	function onUpdateFiles(newfiles) {
+		console.log(newfiles);
 		if (!newfiles.error) {
 			files.splice(0, files.length);
 			Array.prototype.push.apply(files, newfiles);
@@ -31,7 +32,6 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 	function init(session, opt) {
 		socket = session;
 		options = opt;
-		socket.on('error', options.onError);
 		socket.on('updateFiles', onUpdateFiles);
 	}
 
@@ -137,6 +137,15 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		ss.createBlobReadStream(file).pipe(stream);
 	}
 
+
+	function close() {
+		if (!socket) {
+			return;
+		}
+
+		socket.off('updateFiles');
+	}
+
 	return {
 		init: init,
 		getFiles: getFiles,
@@ -148,7 +157,8 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		files: files,
 		rename: rename,
 		download: download,
-		upload: upload
+		upload: upload,
+		close: close
 	};
 })());
 /* eslint-enable vars-on-top */

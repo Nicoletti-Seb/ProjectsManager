@@ -1,14 +1,16 @@
 'use strict';
 
+var HomeModel = require('./scripts/home-model');
 var HomeView = require('./scripts/home-view');
 var FormProjectView = require('./scripts/form-project-view');
 
 //Model
 var socket = null;
+var homeModel = new HomeModel();
 
 //View
-var formProjectView = new FormProjectView();
-var homeView = new HomeView();
+var formProjectView = new FormProjectView({ model: homeModel });
+var homeView = new HomeView({ model: homeModel });
 
 module.exports = function main(session) {
 	socket = session;
@@ -17,18 +19,33 @@ module.exports = function main(session) {
 		start: function startMonitor($container, page) {
 			switch (page) {
 			case 'CreateProject':
-				$container.append(formProjectView.$el);
-				formProjectView.delegateEvents().render();
+				this.initCreateProjectPage($container);
 				break;
 			default:
-				$container.append(homeView.$el);
-				homeView.delegateEvents().render();
+				this.initProjectPage($container);
 			}
 		},
 
 		stop: function stopMonitor() {
+			homeModel.close();
+
 			formProjectView.remove();
 			homeView.remove();
+		},
+
+		initProjectPage: function initProjectPage($container) {
+			$container.append(homeView.$el);
+			homeView.delegateEvents().render();
+
+			homeModel.init(socket, homeView.getOptions());
+			homeModel.getProjects();
+		},
+
+		initCreateProjectPage: function initCreateProjectPage($container) {
+			$container.append(formProjectView.$el);
+			formProjectView.delegateEvents().render();
+
+			homeModel.init(socket, formProjectView.getOptions());
 		}
 	};
 };

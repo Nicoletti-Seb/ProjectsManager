@@ -67,8 +67,6 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 	function onUpdateLocationUsers(users) {
 		removeAllMarkers();
 
-		console.log('coucou');
-		console.log(users);
 		users.forEach(function onUpdateLocationUser(user) {
 			addMarker(user.location);
 		});
@@ -126,6 +124,15 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 		});
 	}
 
+
+	function close() {
+		if (!socket) {
+			return;
+		}
+
+		socket.off('updateLocationUsers');
+	}
+
 	return {
 		initialize: initialize,
 		getMarker: getMarker,
@@ -134,7 +141,8 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 		trigger: trigger,
 		getMyLocation: getMyLocation,
 		updateLocation: updateLocation,
-		removeAllMarkers: removeAllMarkers
+		removeAllMarkers: removeAllMarkers,
+		close: close
 	};
 })());
 /*eslint-enable no-undef*/

@@ -1,7 +1,3 @@
-
-var ChatService = require('./room_services/chat-service');
-var MapService = require('./room_services/map-service');
-var RepositoryService = require('./room_services/repository-service');
 var ProjectService = require('./room_services/project-service');
 
 var DataTest = require('./data-test');
@@ -41,9 +37,6 @@ exports.createSession = function createSession(server) {
 			socket.user = user;
 			socket.currentProject = null;
 			ProjectService.listen(io, socket, projects);
-			ChatService.listen(io, socket);
-			MapService.listen(io, socket);
-			RepositoryService.listen(io, socket);
 		});
 	});
 };

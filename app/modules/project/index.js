@@ -43,6 +43,7 @@ module.exports = function main(session) {
 
 	return {
 		start: function startProject($container, page) {
+			console.log('start index project');
 			switch (page) {
 			case 'map':
 				this.initMapPage($container);
@@ -58,7 +59,11 @@ module.exports = function main(session) {
 		stop: function stopProject() {
 			if (map) {
 				map.removeAllMarkers();
+				map.close();
 			}
+
+			room.close();
+			repository.close();
 
 			//View
 			mapView.remove();

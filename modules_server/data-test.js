@@ -8,7 +8,7 @@ module.exports = {
 			lastname: 'Nicoletti',
 			email: 'sebastien.nicoletti@53js.fr',
 			speciality: 'Developpeur',
-			projets: [1, 2]
+			projects: [1, 2]
 		},
 		{
 			id: 2,
@@ -18,7 +18,7 @@ module.exports = {
 			lastname: 'Martin',
 			email: 'leopaulmartin@hotmail.fr',
 			speciality: 'Expert Oracle',
-			projets: [1]
+			projects: [1]
 		}
 	],
 	projects: [

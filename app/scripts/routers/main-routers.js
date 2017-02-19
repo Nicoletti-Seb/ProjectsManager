@@ -9,7 +9,8 @@ var socket = require('socket.io-client')();
 
 //--- TODO remove
 socket.emit('authentication', 'root', 'root');
-socket.emit('coonnectToProject', 1);
+socket.emit('connectToProject', 1);
+console.log('router');
 //---
 
 //module list

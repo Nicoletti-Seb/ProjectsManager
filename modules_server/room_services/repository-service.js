@@ -3,9 +3,22 @@ var path = require('path');
 var ss = require('socket.io-stream');
 
 /* eslint-disable vars-on-top */
-exports.listen = function repositoryService(io, socket) {
-	var rootDir = path.join(__dirname, '..', '..', 'repositories', '1');
-	var currentDir = rootDir;
+module.exports = function RepositoryService(io, socket) {
+	var rootDir = '';
+	var currentDir = '';
+
+	(function update() {
+		if (!socket.currentProject) {
+			return;
+		}
+
+		rootDir = path.join(__dirname, '..', '..', 'repositories', String(socket.currentProject.id));
+		currentDir = rootDir;
+
+		if (!fs.existsSync(rootDir)) {
+			fs.mkdirSync(rootDir);
+		}
+	})();
 
 	function sendFiles() {
 		fs.readdir(currentDir, function onReaddir(err, filenames) {
@@ -37,8 +50,10 @@ exports.listen = function repositoryService(io, socket) {
 		});
 	}
 
-
-	socket.on('getFiles', sendFiles);
+	socket.on('getFiles', function onGetFiles() {
+		console.log('repository-service');
+		sendFiles();
+	});
 
 	socket.on('toParent', function toParent() {
 		var newDir = path.join(currentDir, '..');
@@ -196,5 +211,21 @@ exports.listen = function repositoryService(io, socket) {
 			stream.pipe(fs.createWriteStream(pathFile));
 		});
 	});
+
+	function close() {
+		socket.removeAllListeners('getFiles');
+		socket.removeAllListeners('toParent');
+		socket.removeAllListeners('toDirectory');
+		socket.removeAllListeners('createDirectory');
+		socket.removeAllListeners('deleteDirectory');
+		socket.removeAllListeners('deleteFile');
+		socket.removeAllListeners('rename');
+		socket.removeAllListeners('download');
+		socket.removeAllListeners('upload');
+	}
+
+	return {
+		close: close
+	};
 };
 /* eslint-enable vars-on-top */
