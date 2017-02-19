@@ -15,8 +15,10 @@ var Backbone = require('backbone');
  */
 /*eslint-disable no-undef*/
 module.exports = Backbone.Model.extend((function ClassMap() {
-	var socket = null;
 	var markers = [];
+	var mapApi = null;
+	var opt = {};
+	var el = null;
 
 	function getMapOptions() {
 		return {
@@ -25,39 +27,67 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 		};
 	}
 
-	function initialize(element, options) {
-		this.el = element;
-		this.opt = options;
-		this.mapApi = new google.maps.Map(this.el, getMapOptions());
-	}
-
-
 	function addMarker(poi) {
 		var marker = new google.maps.Marker({
 			position: new google.maps.LatLng(poi.latitude, poi.longitude),
-			map: this.mapApi,
+			map: mapApi,
 			title: poi.name,
-			draggable: this.opt.markerDraggable || false,
+			draggable: opt.markerDraggable || false,
 			infoWindow: new google.maps.InfoWindow({
 				maxWidth: 350
 			})
 		});
 
 		// Event Listener
-		if (this.opt.markerClickEvent) {
-			google.maps.event.addListener(marker, 'click', this.opt.markerClickEvent);
+		if (opt.markerClickEvent) {
+			google.maps.event.addListener(marker, 'click', opt.markerClickEvent);
 		}
-		if (this.opt.markerStartDragEvent) {
-			google.maps.event.addListener(marker, 'dragstart', this.opt.markerStartDragEvent);
+		if (opt.markerStartDragEvent) {
+			google.maps.event.addListener(marker, 'dragstart', opt.markerStartDragEvent);
 		}
-		if (this.opt.markerEndDragEvent) {
-			google.maps.event.addListener(marker, 'dragend', this.opt.markerEndDragEvent);
+		if (opt.markerEndDragEvent) {
+			google.maps.event.addListener(marker, 'dragend', opt.markerEndDragEvent);
 		}
 
 		marker.poi = poi;
 		markers.push(marker);
 
 		return marker;
+	}
+
+
+	function removeAllMarkers() {
+		markers.forEach(function onDeleteMarker(marker) {
+			marker.setMap(null);
+		});
+
+		markers = [];
+	}
+
+	function onUpdateLocationUsers(users) {
+		removeAllMarkers();
+
+		console.log('coucou');
+		console.log(users);
+		users.forEach(function onUpdateLocationUser(user) {
+			addMarker(user.location);
+		});
+	}
+
+	function initialize(element, options) {
+		el = element;
+		opt = options;
+		mapApi = new google.maps.Map(el, getMapOptions());
+
+		if (opt.socket) {
+			opt.socket.on('updateLocationUsers', onUpdateLocationUsers);
+		}
+	}
+
+	function updateLocation(poi) {
+		if (opt.socket) {
+			opt.socket.emit('updateLocation', poi);
+		}
 	}
 
 	function getMarker(idPoi) {
@@ -96,14 +126,6 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 		});
 	}
 
-	function close() {
-		markers.forEach(function onDeleteMarker(marker) {
-			marker.setMap(null);
-		});
-
-		markers = [];
-	}
-
 	return {
 		initialize: initialize,
 		getMarker: getMarker,
@@ -111,7 +133,8 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 		removeMarker: removeMarker,
 		trigger: trigger,
 		getMyLocation: getMyLocation,
-		close: close
+		updateLocation: updateLocation,
+		removeAllMarkers: removeAllMarkers
 	};
 })());
 /*eslint-enable no-undef*/

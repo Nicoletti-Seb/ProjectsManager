@@ -23,12 +23,16 @@ var repositoryView = new RepositoryView({ model: repository });
 
 //Loading async map
 window.onLoadMap = function onLoadMap() {
-	map = new Map(mapView.el.querySelector('.map'), {});
+	map = new Map(mapView.el.querySelector('.map'), { socket: socket, markerDraggable: true });
 	mapView.model = map;
 
 	map.getMyLocation()
 		.then(function onGetMyLocation(position) {
 			map.addMarker(position.coords);
+			map.updateLocation({
+				latitude: position.coords.latitude,
+				longitude: position.coords.longitude
+			});
 		}).catch(function errorOnGetMyLocation(err) {
 			console.log(err);
 		});
@@ -53,11 +57,10 @@ module.exports = function main(session) {
 
 		stop: function stopProject() {
 			if (map) {
-				map.close();
+				map.removeAllMarkers();
 			}
 
 			//View
-			console.log(mapView);
 			mapView.remove();
 			roomView.remove();
 			repositoryView.remove();
