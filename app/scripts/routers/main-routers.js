@@ -1,5 +1,4 @@
 'use strict';
-
 var $ = require('jquery');
 var Backbone = require('backbone');
 
@@ -19,20 +18,13 @@ var currentModule = null;
 var $header = $('.header');
 header.start($header);
 
-function onDisconnect() {
-	console.log('onDisconnect');
-	socket = require('socket.io-client')();
-	connection.setSocket(socket);
-	home.setSocket(socket);
-	project.setSocket(socket);
-	header.setSocket(socket);
-
-	socket.once('disconnect', onDisconnect);
+//Reconnect the socket after a disconnect
+function reconnect() {
+	socket.connect();
 }
-socket.once('disconnect', onDisconnect);
+socket.on('disconnect', reconnect);
 
 
-console.log(socket);
 var MainRouter = Backbone.Router.extend({
 	routes: {
 		'': 'connection',
@@ -43,7 +35,6 @@ var MainRouter = Backbone.Router.extend({
 	},
 
 	execute: function executeRoute(callback, args/*, name*/) {
-		console.log('execute router');
 		$content.html('');
 
 		if (currentModule) {
@@ -55,7 +46,6 @@ var MainRouter = Backbone.Router.extend({
 	},
 
 	connection: function connectionRoute() {
-		console.log('execute connection');
 		currentModule = connection;
 		connection.start($content);
 	},
