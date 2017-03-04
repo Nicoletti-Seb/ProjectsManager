@@ -1,0 +1,47 @@
+{% if isConnected %}
+	<h2 class="disconnect"">Se deconnecter</h2>
+{% else %}
+	<h2><a href="#">Se connecter</a></h2>
+{% endif %}
+
+{% if currentProject %}
+	<h2 class="disconnect-project">Sortir du projet</h2>
+{% endif %}
+
+
+
+<nav class="navbar " id="navigation">
+	<ul class="list-inline navbar-nav">
+		{% if currentProject %}
+			<li>
+				<a href="#project" title="Conversation" class="menu-item">Chat</a>
+			</li>
+			<li>
+				<a href="#project/map" title="" class="menu-item">Map</a>
+			</li>
+			<li>
+				<a href="#project/repository" title="" class="menu-item">Repository</a>
+			</li>
+
+		{% elif isConnected %}
+			<li>
+				<a href="#home" title="List Projects" class="menu-item">List Projects</a>
+			</li>
+			
+			<li>
+				<a href="#home/CreateProject" title="" class="menu-item">Form Project</a>
+			</li>
+			<li>
+				<a href="#register" title="" class="menu-item">Form User</a>
+			</li>
+		{% else %}
+			<li>
+				<a href="#" title="Retourner à l'accueil" class="menu-item">Home</a>
+			</li>
+		{% endif %}
+	</ul>
+</nav>
+
+<h1 class="header-title">
+	PROJECTS MANAGER
+</h1>

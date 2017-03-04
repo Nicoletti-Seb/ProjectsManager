@@ -8,5 +8,9 @@ module.exports = Backbone.View.extend({
 		var html = this.template.render();
 		this.$el.html(html);
 		return this;
+	},
+
+	getOptions: function getOptions() {
+		return {};
 	}
 });

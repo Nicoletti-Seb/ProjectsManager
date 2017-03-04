@@ -3,27 +3,37 @@
 var $ = require('jquery');
 var Backbone = require('backbone');
 
-/* eslint-disable import/no-unresolved */
-
+/*eslint-disable vars-on-top*/
 var socket = require('socket.io-client')();
 
-//--- TODO remove
-socket.emit('authentication', 'root', 'root');
-socket.emit('connectToProject', 1);
-console.log('router');
-//---
-
-//module list
+/* eslint-disable import/no-unresolved */
 var connection = require('connection')(socket);
 var home = require('home')(socket);
 var project = require('project')(socket);
+var header = require('header')(socket);
 /* eslint-enable import/no-unresolved */
 
 var $content = $('.content');
 var currentModule = null;
 
-var MainRouter = Backbone.Router.extend({
+var $header = $('.header');
+header.start($header);
 
+function onDisconnect() {
+	console.log('onDisconnect');
+	socket = require('socket.io-client')();
+	connection.setSocket(socket);
+	home.setSocket(socket);
+	project.setSocket(socket);
+	header.setSocket(socket);
+
+	socket.once('disconnect', onDisconnect);
+}
+socket.once('disconnect', onDisconnect);
+
+
+console.log(socket);
+var MainRouter = Backbone.Router.extend({
 	routes: {
 		'': 'connection',
 		register: 'register',
@@ -33,6 +43,7 @@ var MainRouter = Backbone.Router.extend({
 	},
 
 	execute: function executeRoute(callback, args/*, name*/) {
+		console.log('execute router');
 		$content.html('');
 
 		if (currentModule) {
@@ -44,6 +55,7 @@ var MainRouter = Backbone.Router.extend({
 	},
 
 	connection: function connectionRoute() {
+		console.log('execute connection');
 		currentModule = connection;
 		connection.start($content);
 	},
@@ -67,4 +79,4 @@ var MainRouter = Backbone.Router.extend({
 module.exports = function start() {
 	return new MainRouter();
 };
-
+/*eslint-enable vars-on-top*/

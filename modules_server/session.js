@@ -30,13 +30,21 @@ exports.createSession = function createSession(server) {
 		socket.on('authentication', function onAuthentication(login, password) {
 			var user = connect(login, password);
 			if (!user) {
-				user = DataTest.users[0]; // TODO: remove
-				//return;
+				socket.emit('authenticate', { error: 'User not found...' });
+				return;
 			}
 
 			socket.user = user;
 			socket.currentProject = null;
 			ProjectService.listen(io, socket, projects);
+
+			//notify client
+			socket.emit('authenticate');
+		});
+
+
+		socket.on('disconnect', function onDisconnect() {
+			socket.disconnect();
 		});
 	});
 };

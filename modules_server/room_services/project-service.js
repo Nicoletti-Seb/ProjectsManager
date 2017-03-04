@@ -35,10 +35,20 @@ exports.listen = function projectService(io, socket, projects) {
 		return null;
 	}
 
+
+	function deleteUser(users) {
+		for (var i = 0; i < users.length; i++) {
+			if (users[i].id === socket.user.id) {
+				users.splice(i, 1);
+				return;
+			}
+		}
+	}
+
 	socket.on('connectToProject', function onConnectToRoom(projectId) {
 		var project = searchProjects(projectId);
 		if (!project) {
-			console.log('project not found ', projectId);
+			socket.emit('connectedToProject', { error: 'project not found' });
 			return;
 		}
 
@@ -50,7 +60,7 @@ exports.listen = function projectService(io, socket, projects) {
 		updateServices();
 
 		//notify users
-		socket.emit('connectedToProject');
+		socket.emit('connectedToProject', project);
 		socket.broadcast
 			.to(project.name)
 			.emit('updatechat', 'SERVER', socket.user.login + ' has connected to this room');
@@ -59,7 +69,7 @@ exports.listen = function projectService(io, socket, projects) {
 
 
 	socket.on('disconnectToProject', function onDisconnect() {
-		delete socket.currentUsers[socket.user];
+		deleteUser(socket.currentProject.currentUsers);
 
 		io.sockets.emit('updateusers', projects);
 

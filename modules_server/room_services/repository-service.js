@@ -181,6 +181,7 @@ module.exports = function RepositoryService(io, socket) {
 		}
 
 		var pathFile = path.join(currentDir, filename);
+		console.log(pathFile);
 		fs.access(pathFile, function onAccessDir(err) {
 			if (err) {
 				socket.emit('updateFiles', { error: err });
@@ -220,8 +221,8 @@ module.exports = function RepositoryService(io, socket) {
 		socket.removeAllListeners('deleteDirectory');
 		socket.removeAllListeners('deleteFile');
 		socket.removeAllListeners('rename');
-		socket.removeAllListeners('download');
-		socket.removeAllListeners('upload');
+		ss(socket).removeAllListeners('download');
+		ss(socket).removeAllListeners('upload');
 	}
 
 	return {

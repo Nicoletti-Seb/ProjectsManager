@@ -91,6 +91,19 @@ module.exports = function main(session) {
 			//init model
 			repository.init(socket, repositoryView.getOptions());
 			repository.getFiles();
+		},
+
+		setSocket: function setSocket(so) {
+			socket = so;
+			room.socket = socket;
+			room.setSocket(socket);
+			repository.socket = socket;
+			repository.setSocket(socket);
+			
+			if (map) {
+				map.socket = socket;
+				map.setSocket(socket);
+			}
 		}
 	};
 };

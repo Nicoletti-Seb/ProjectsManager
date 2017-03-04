@@ -146,6 +146,10 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		socket.off('updateFiles');
 	}
 
+	function setSocket(so) {
+		socket = so;
+	}
+
 	return {
 		init: init,
 		getFiles: getFiles,
@@ -158,6 +162,7 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		rename: rename,
 		download: download,
 		upload: upload,
+		setSocket: setSocket,
 		close: close
 	};
 })());

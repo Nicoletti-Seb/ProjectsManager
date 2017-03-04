@@ -46,6 +46,12 @@ module.exports = function main(session) {
 			formProjectView.delegateEvents().render();
 
 			homeModel.init(socket, formProjectView.getOptions());
+		},
+
+		setSocket: function setSocket(so) {
+			socket = so;
+			homeModel.setSocket(socket);
+			homeModel.setSocket(socket);
 		}
 	};
 };

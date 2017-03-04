@@ -7,7 +7,7 @@ var Backbone = require('backbone');
 	}
 */
 /* eslint-disable vars-on-top */
-module.exports = Backbone.Model.extend((function RepositoryClass() {
+module.exports = Backbone.Model.extend((function HomeClass() {
 	var socket = null;
 	var projects = [];
 	var options = {};
@@ -54,11 +54,16 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		socket.off('updateProjects');
 	}
 
+	function setSocket(so) {
+		socket = so;
+	}
+
 	return {
 		init: init,
 		getProjects: getProjects,
 		projects: projects,
 		connectToProject: connectToProject,
+		setSocket: setSocket,
 		close: close
 	};
 })());

@@ -5,7 +5,7 @@
 
 	<div class="table-projects">
 	{% for item in projects %}
-	  	<a href="#"><div class="panel-project" data-id="{{ item.id }}">{{ item.name }}</div></a>
+	  	<div class="panel-project" data-id="{{ item.id }}">{{ item.name }}</div>
 	{% else %}
 	  	<div>This would display if the 'item' collection were empty</div>
 	{% endfor %}

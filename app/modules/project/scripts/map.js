@@ -124,13 +124,16 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 		});
 	}
 
-
 	function close() {
-		if (!socket) {
+		if (!opt.socket) {
 			return;
 		}
 
-		socket.off('updateLocationUsers');
+		opt.socket.off('updateLocationUsers');
+	}
+
+	function setSocket(so) {
+		opt.socket = so;
 	}
 
 	return {
@@ -142,6 +145,7 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 		getMyLocation: getMyLocation,
 		updateLocation: updateLocation,
 		removeAllMarkers: removeAllMarkers,
+		setSocket: setSocket,
 		close: close
 	};
 })());
