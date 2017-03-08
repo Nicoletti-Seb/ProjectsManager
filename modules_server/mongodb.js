@@ -35,25 +35,25 @@ module.exports = (function MongodbServerClass() {
     }
 
     function getUsers(callback) {
-        var findDocuments = function(db, callback) {
-            // Get the documents collection
+        return new Promise(function executor(resolve, reject) {
             var collection = db.collection('users');
-            // Find some documents
-            collection.find({}).toArray(function(err, docs) {
-                console.log("Found the following records");
-                console.log(docs)
-                callback(err, docs);
-            });
-        }
+            collection.find({}).toArray(reject, resolve);
+        });
+    }
 
-        return findDocuments;
+    function getUser(login, password) {
+        return new Promise(function executor(resolve, reject) {
+            var collection = db.collection('users');
+            collection.find({ 'login':login, 'password':password}).toArray(reject, resolve);
+        });
     }
 
     return {
         connect: connect,
         close: close,
         addProject: addProject,
-        addUser: addUser,
-        getUsers: getUsers
+        addUser: addUser
+        getUsers: getUsers,
+        getUser: getUser
     };
 })();

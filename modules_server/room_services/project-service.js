@@ -81,14 +81,14 @@ exports.listen = function projectService(io, socket, projects) {
 	function getProjectsUser(user) {
 		var results = [];
 
-		user.projects.forEach(function getProjectId(idProject) {
+		/*user.projects.forEach(function getProjectId(idProject) {
 			for (var i in projects) {
 				if (projects[i].id === idProject) {
 					results.push(projects[i]);
 					return;
 				}
 			}
-		});
+		});*/
 
 		return results;
 	}
