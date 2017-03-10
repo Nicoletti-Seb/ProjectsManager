@@ -69,6 +69,7 @@ module.exports = function main(session) {
 
 			room.close();
 			repository.close();
+			visio.close();
 
 			//View
 			mapView.remove();
@@ -103,19 +104,8 @@ module.exports = function main(session) {
 			visioView.delegateEvents().render();
 
 			//TODO: start visio
-		},
-
-		setSocket: function setSocket(so) {
-			socket = so;
-			room.socket = socket;
-			room.setSocket(socket);
-			repository.socket = socket;
-			repository.setSocket(socket);
-
-			if (map) {
-				map.socket = socket;
-				map.setSocket(socket);
-			}
+			visio.init(visioView.getOptions());
+			visio.createRoom(socket.project.id);
 		}
 	};
 };

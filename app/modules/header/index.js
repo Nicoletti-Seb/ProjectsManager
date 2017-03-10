@@ -19,12 +19,6 @@ module.exports = function main(session) {
 			headerView.delegateEvents().render();
 
 			headerModel.init(socket, headerView.getOptions());
-		},
-
-		setSocket: function setSocket(so) {
-			socket = so;
-			headerModel.socket = socket;
-			headerModel.setSocket(socket);
 		}
 	};
 };

@@ -43,12 +43,6 @@ module.exports = function main(session) {
 			formUserView.delegateEvents().render();
 
 			connectionModel.init(socket, formUserView.getOptions());
-		},
-
-		setSocket: function setSocket(so) {
-			socket = so;
-			connectionModel.socket = socket;
-			connectionModel.setSocket(socket);
 		}
 	};
 };

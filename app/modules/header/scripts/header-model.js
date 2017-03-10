@@ -12,7 +12,6 @@ module.exports = Backbone.Model.extend((function HeaderClass() {
 	var socket = null;
 	var options = {};
 	var isConnected = false;
-	var currentProject = null;
 
 
 	function onAuthenticate(err) {
@@ -27,7 +26,7 @@ module.exports = Backbone.Model.extend((function HeaderClass() {
 
 	function onConnectedToProject(project) {
 		if (!project.error) {
-			currentProject = project;
+			socket.project = project;
 		}
 
 		if (options.onConnectedToProject) {
@@ -51,7 +50,7 @@ module.exports = Backbone.Model.extend((function HeaderClass() {
 		socket.disconnect();
 
 		isConnected = false;
-		currentProject = null;
+		socket.project = null;
 	}
 
 	function disconnectToProject() {
@@ -60,7 +59,7 @@ module.exports = Backbone.Model.extend((function HeaderClass() {
 		}
 
 		socket.emit('disconnectToProject');
-		currentProject = null;
+		socket.project = null;
 	}
 
 	function close() {
@@ -78,7 +77,7 @@ module.exports = Backbone.Model.extend((function HeaderClass() {
 	return {
 		init: init,
 		isConnected: function () { return isConnected; },
-		currentProject: function () { return currentProject; },
+		currentProject: function () { return socket && socket.project; },
 		disconnect: disconnect,
 		disconnectToProject: disconnectToProject,
 		setSocket: setSocket,
