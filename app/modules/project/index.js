@@ -3,10 +3,12 @@
 var Map = require('./scripts/map');
 var Room = require('./scripts/room');
 var Repository = require('./scripts/repository');
+var Visio = require('./scripts/visio');
 
 var MapView = require('./scripts/map-view');
 var RoomView = require('./scripts/room-view');
 var RepositoryView = require('./scripts/repository-view');
+var VisioView = require('./scripts/visio-view');
 
 
 //Model
@@ -14,12 +16,13 @@ var socket = null;
 var map = null;
 var room = new Room();
 var repository = new Repository();
+var visio = new Visio();
 
 //Views
 var mapView = new MapView({ model: map });
 var roomView = new RoomView({ model: room });
 var repositoryView = new RepositoryView({ model: repository });
-
+var visioView = new VisioView({ model: visio });
 
 //Loading async map
 window.onLoadMap = function onLoadMap() {
@@ -43,13 +46,15 @@ module.exports = function main(session) {
 
 	return {
 		start: function startProject($container, page) {
-			console.log('start index project');
 			switch (page) {
 			case 'map':
 				this.initMapPage($container);
 				break;
 			case 'repository':
 				this.initRepositoryPage($container);
+				break;
+			case 'visio':
+				this.initVisioPage($container);
 				break;
 			default:
 				this.initRoomPage($container);
@@ -93,13 +98,20 @@ module.exports = function main(session) {
 			repository.getFiles();
 		},
 
+		initVisioPage: function initVisioPage($container) {
+			$container.append(visioView.el);
+			visioView.delegateEvents().render();
+
+			//TODO: start visio
+		},
+
 		setSocket: function setSocket(so) {
 			socket = so;
 			room.socket = socket;
 			room.setSocket(socket);
 			repository.socket = socket;
 			repository.setSocket(socket);
-			
+
 			if (map) {
 				map.socket = socket;
 				map.setSocket(socket);
