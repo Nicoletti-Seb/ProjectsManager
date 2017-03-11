@@ -1,19 +1,10 @@
 var ProjectService = require('./room_services/project-service');
 var mongoDB = require('./mongodb');
-//var DataTest = require('./data-test');
 
 /*eslint-disable vars-on-top */
 exports.createSession = function createSession(server) {
 	var io = require('socket.io').listen(server);
 	mongoDB.connect().catch(function onError(err) { console.log(err); });
-	var projects = [];
-
-	(function initProjects() {
-		projects = DataTest.projects;
-		projects.forEach(function loopInitRoom(project) {
-			project.currentUsers = [];
-		});
-	})();
 
 	io.sockets.on('connection', function onConnection(socket) {
 		socket.on('authentication', function onAuthentication(login, password) {
@@ -27,7 +18,13 @@ exports.createSession = function createSession(server) {
 
 					socket.user = user;
 					socket.currentProject = null;
-					ProjectService.listen(io, socket, projects);
+
+
+					mongoDB.getProjects()
+						.then(function onGetProjects(projects) {
+							console.log('projects', projects);
+							ProjectService.listen(io, socket, projects);
+						}).catch(function onError(err) { console.log(err); });
 
 					//notify client
 					socket.emit('authenticate');

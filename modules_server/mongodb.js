@@ -55,12 +55,34 @@ module.exports = (function MongodbServerClass() {
 		});
 	}
 
+	function getProjects() {
+		return new Promise(function executor(resolve, reject) {
+			var collection = mongodb.collection('projects');
+			collection.find({}).toArray(function onToArray(err, items) {
+				if (err) { return reject(err); }
+				return resolve(items);
+			});
+		});
+	}
+
+	function getProject(id) {
+		return new Promise(function executor(resolve, reject) {
+			var collection = mongodb.collection('projects');
+			collection.findOne({ id: id }, function onFindOne(err, items) {
+				if (err) { return reject(err); }
+				return resolve(items);
+			});
+		});
+	}
+
 	return {
 		connect: connect,
 		close: close,
 		addProject: addProject,
 		addUser: addUser,
 		getUsers: getUsers,
-		getUser: getUser
+		getUser: getUser,
+		getProjects: getProjects,
+		getProject: getProject
 	};
 })();
