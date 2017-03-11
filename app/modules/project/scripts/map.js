@@ -132,10 +132,6 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 		opt.socket.off('updateLocationUsers');
 	}
 
-	function setSocket(so) {
-		opt.socket = so;
-	}
-
 	return {
 		initialize: initialize,
 		getMarker: getMarker,
@@ -145,7 +141,6 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 		getMyLocation: getMyLocation,
 		updateLocation: updateLocation,
 		removeAllMarkers: removeAllMarkers,
-		setSocket: setSocket,
 		close: close
 	};
 })());

@@ -1,0 +1,40 @@
+
+.hidden{
+	display: none;
+}
+
+
+.notification{
+	position: relative;
+	color: #3c763d;
+    background-color: #dff0d8;
+    padding: 15px;
+    margin: 10px 0px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+
+    .close {
+		position: absolute;
+		right: 5px;
+		top: 5px;
+		color: black;
+		opacity: .3;
+		cursor: pointer;
+	}
+
+	.close:hover{
+		opacity: .5;
+	}
+
+    .title {
+    	font-weight: bolder;
+    }
+
+
+    &.error {
+    	color: #a94442;
+    	background-color: #f2dede;
+    	border-color: #ebccd1;
+    }
+
+}

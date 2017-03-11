@@ -14,10 +14,8 @@ module.exports = Backbone.Model.extend((function HomeClass() {
 
 
 	function onUpdateProjects(newProjects) {
-		if (!newProjects.error) {
-			projects.splice(0, projects.length);
-			Array.prototype.push.apply(projects, newProjects);
-		}
+		projects.splice(0, projects.length);
+		Array.prototype.push.apply(projects, newProjects);
 
 		if (options.onUpdateProjects) {
 			options.onUpdateProjects(newProjects);
@@ -54,16 +52,11 @@ module.exports = Backbone.Model.extend((function HomeClass() {
 		socket.off('updateProjects');
 	}
 
-	function setSocket(so) {
-		socket = so;
-	}
-
 	return {
 		init: init,
 		getProjects: getProjects,
 		projects: projects,
 		connectToProject: connectToProject,
-		setSocket: setSocket,
 		close: close
 	};
 })());

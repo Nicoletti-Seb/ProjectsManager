@@ -14,7 +14,7 @@ module.exports = function main(session) {
 	socket = session;
 
 	return {
-		start: function startMonitor($header) {
+		start: function startHeader($header) {
 			$header.append(headerView.$el);
 			headerView.delegateEvents().render();
 

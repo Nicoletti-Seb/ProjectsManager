@@ -48,7 +48,7 @@ exports.listen = function projectService(io, socket, projects) {
 	socket.on('connectToProject', function onConnectToRoom(projectId) {
 		var project = searchProjects(projectId);
 		if (!project) {
-			socket.emit('connectedToProject', { error: 'project not found' });
+			socket.emit('msgError', 'Le projet avec l\'id ' + projectId + ' n\'existe pas...');
 			return;
 		}
 

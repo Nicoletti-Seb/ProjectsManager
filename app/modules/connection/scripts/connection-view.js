@@ -1,7 +1,7 @@
 
 var Backbone = require('backbone');
 
-
+/* eslint-disable vars-on-top */
 module.exports = Backbone.View.extend({
 	template: require('../templates/connection.html'),
 
@@ -31,12 +31,8 @@ module.exports = Backbone.View.extend({
 		};
 	},
 
-	onAuthenticate: function onAuthenticate(err) {
-		if (err) {
-			console.log(err);
-			return;
-		}
-
+	onAuthenticate: function onAuthenticate() {
 		console.log('Connected');
 	}
 });
+/* eslint-enable vars-on-top */

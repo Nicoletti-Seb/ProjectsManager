@@ -36,22 +36,12 @@ module.exports = Backbone.View.extend({
 		};
 	},
 
-	onAuthenticate: function onAuthenticate(err) {
-		if (err) {
-			console.log(err);
-			return;
-		}
-
+	onAuthenticate: function onAuthenticate() {
 		this.render();
 		Backbone.history.navigate('home', { trigger: true });
 	},
 
-	onConnectedToProject: function onConnectedToProject(project) {
-		if (project.error) {
-			console.log(project.error);
-			return;
-		}
-
+	onConnectedToProject: function onConnectedToProject() {
 		this.render();
 		Backbone.history.navigate('project', { trigger: true });
 	}

@@ -31,14 +31,9 @@ module.exports = Backbone.Model.extend((function ConnectionClass() {
 		socket.off('updateProjects');
 	}
 
-	function setSocket(so) {
-		socket = so;
-	}
-
 	return {
 		init: init,
 		authentication: authentication,
-		setSocket: setSocket,
 		close: close
 	};
 })());

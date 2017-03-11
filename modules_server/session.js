@@ -30,7 +30,7 @@ exports.createSession = function createSession(server) {
 		socket.on('authentication', function onAuthentication(login, password) {
 			var user = connect(login, password);
 			if (!user) {
-				socket.emit('authenticate', { error: 'User not found...' });
+				socket.emit('msgError', 'Les identifiants sont incorrectes...');
 				return;
 			}
 

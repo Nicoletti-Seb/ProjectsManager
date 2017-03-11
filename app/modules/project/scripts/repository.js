@@ -18,11 +18,8 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 
 
 	function onUpdateFiles(newfiles) {
-		console.log(newfiles);
-		if (!newfiles.error) {
-			files.splice(0, files.length);
-			Array.prototype.push.apply(files, newfiles);
-		}
+		files.splice(0, files.length);
+		Array.prototype.push.apply(files, newfiles);
 
 		if (options.onUpdateFiles) {
 			options.onUpdateFiles(newfiles);
@@ -146,10 +143,6 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		socket.off('updateFiles');
 	}
 
-	function setSocket(so) {
-		socket = so;
-	}
-
 	return {
 		init: init,
 		getFiles: getFiles,
@@ -162,7 +155,6 @@ module.exports = Backbone.Model.extend((function RepositoryClass() {
 		rename: rename,
 		download: download,
 		upload: upload,
-		setSocket: setSocket,
 		close: close
 	};
 })());

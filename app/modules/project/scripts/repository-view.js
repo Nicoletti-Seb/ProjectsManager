@@ -92,12 +92,7 @@ module.exports = Backbone.View.extend({
 		console.log('onError ', err);
 	},
 
-	onUpdateFiles: function onUpdateFiles(files) {
-		if (files.error) {
-			console.log(files.error);
-			return;
-		}
-
+	onUpdateFiles: function onUpdateFiles() {
 		this.render();
 	}
 });

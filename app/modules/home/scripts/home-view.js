@@ -27,12 +27,6 @@ module.exports = Backbone.View.extend({
 	},
 
 	onUpdateProjects: function onUpdateProjects(projects) {
-		console.log(projects);
-		if (projects.error) {
-			console.log(projects.error);
-			return;
-		}
-
 		this.render();
 	}
 });

@@ -58,17 +58,11 @@ module.exports = Backbone.Model.extend((function RoomClass() {
 		socket.off('updaterooms');
 	}
 
-
-	function setSocket(so) {
-		socket = so;
-	}
-
 	return {
 		init: init,
 		addUser: addUser,
 		sendMessage: sendMessage,
 		switchRoom: switchRoom,
-		setSocket: setSocket,
 		close: close
 	};
 })());

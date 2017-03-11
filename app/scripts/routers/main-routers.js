@@ -10,6 +10,7 @@ var connection = require('connection')(socket);
 var home = require('home')(socket);
 var project = require('project')(socket);
 var header = require('header')(socket);
+var notification = require('notification')(socket);
 /* eslint-enable import/no-unresolved */
 
 var $content = $('.content');
@@ -17,6 +18,9 @@ var currentModule = null;
 
 var $header = $('.header');
 header.start($header);
+
+var $notification = $('.notification');
+notification.start($notification);
 
 //Reconnect the socket after a disconnect
 function reconnect() {
