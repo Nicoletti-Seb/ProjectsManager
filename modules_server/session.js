@@ -1,13 +1,12 @@
 var ProjectService = require('./room_services/project-service');
-
-var DataTest = require('./data-test');
+var mongoDB = require('./mongodb');
+//var DataTest = require('./data-test');
 
 /*eslint-disable vars-on-top */
 exports.createSession = function createSession(server) {
 	var io = require('socket.io').listen(server);
-	var users = DataTest.users;
+	mongoDB.connect().catch(function onError(err) { console.log(err); });
 	var projects = [];
-
 
 	(function initProjects() {
 		projects = DataTest.projects;
@@ -16,30 +15,23 @@ exports.createSession = function createSession(server) {
 		});
 	})();
 
-	function connect(login, password) {
-		for (var i = 0, user = null; user = users[i]; i++) {
-			if (user.login === login && user.password === password) {
-				return user;
-			}
-		}
-
-		return null;
-	}
-
 	io.sockets.on('connection', function onConnection(socket) {
 		socket.on('authentication', function onAuthentication(login, password) {
-			var user = connect(login, password);
-			if (!user) {
-				socket.emit('authenticate', { error: 'User not found...' });
-				return;
-			}
+			mongoDB.getUser(login, password)
+				.then(function onGetUser(user) {
+					console.log('user ', user);
+					if (!user) {
+						socket.emit('authenticate', { error: 'User not found...' });
+						return;
+					}
 
-			socket.user = user;
-			socket.currentProject = null;
-			ProjectService.listen(io, socket, projects);
+					socket.user = user;
+					socket.currentProject = null;
+					ProjectService.listen(io, socket, projects);
 
-			//notify client
-			socket.emit('authenticate');
+					//notify client
+					socket.emit('authenticate');
+				}).catch(function onError(err) { console.log('onGetUser ', err); });
 		});
 
 
