@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/test';
+var url = 'mongodb://localhost:27017/projectsmanager';
 
 
 module.exports = (function MongodbServerClass() {
@@ -12,7 +12,7 @@ module.exports = (function MongodbServerClass() {
 
 		return new Promise(function executor(resolve, reject) {
 			MongoClient.connect(url, function onConnect(err, db) {
-				if(err){
+				if (err) {
 					reject(err);
 					return;
 				}
@@ -23,8 +23,8 @@ module.exports = (function MongodbServerClass() {
 	}
 
 	function close() {
-		db.close();
-		db = null;
+		mongodb.close();
+		mongodb = null;
 	}
 
 	function addProject(project) {
@@ -35,10 +35,54 @@ module.exports = (function MongodbServerClass() {
 
 	}
 
+	function getUsers() {
+		return new Promise(function executor(resolve, reject) {
+			var collection = mongodb.collection('users');
+			collection.find({}).toArray(function onToArray(err, items) {
+				if (err) { return reject(err); }
+				return resolve(items);
+			});
+		});
+	}
+
+	function getUser(login, password) {
+		return new Promise(function executor(resolve, reject) {
+			var collection = mongodb.collection('users');
+			collection.findOne({ login: login, password: password }, function onFindOne(err, items) {
+				if (err) { return reject(err); }
+				return resolve(items);
+			});
+		});
+	}
+
+	function getProjects() {
+		return new Promise(function executor(resolve, reject) {
+			var collection = mongodb.collection('projects');
+			collection.find({}).toArray(function onToArray(err, items) {
+				if (err) { return reject(err); }
+				return resolve(items);
+			});
+		});
+	}
+
+	function getProject(id) {
+		return new Promise(function executor(resolve, reject) {
+			var collection = mongodb.collection('projects');
+			collection.findOne({ id: id }, function onFindOne(err, items) {
+				if (err) { return reject(err); }
+				return resolve(items);
+			});
+		});
+	}
+
 	return {
 		connect: connect,
 		close: close,
 		addProject: addProject,
-		addUser: addUser
+		addUser: addUser,
+		getUsers: getUsers,
+		getUser: getUser,
+		getProjects: getProjects,
+		getProject: getProject
 	};
 })();
