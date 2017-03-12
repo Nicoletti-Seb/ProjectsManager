@@ -20,12 +20,21 @@ module.exports = Backbone.Model.extend((function HomeClass() {
 		if (options.onUpdateProjects) {
 			options.onUpdateProjects(newProjects);
 		}
+		console.log('projects', projects);
 	}
 
 	function init(session, opt) {
 		socket = session;
 		options = opt;
 		socket.on('updateProjects', onUpdateProjects);
+	}
+
+	function createProject(title, desc, members) {
+		if (!socket) {
+			return;
+		}
+
+		socket.emit('createProject', title, desc, members);
 	}
 
 	function getProjects() {
@@ -54,6 +63,7 @@ module.exports = Backbone.Model.extend((function HomeClass() {
 
 	return {
 		init: init,
+		createProject: createProject,
 		getProjects: getProjects,
 		projects: projects,
 		connectToProject: connectToProject,
