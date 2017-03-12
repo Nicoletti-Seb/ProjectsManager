@@ -23,6 +23,14 @@ module.exports = Backbone.Model.extend((function ConnectionClass() {
 		socket.emit('authentication', login, password);
 	}
 
+	function register(login, email, password, speciality) {
+		if (!socket) {
+			return;
+		}
+
+		socket.emit('register', login, email, password, speciality);
+	}
+
 	function close() {
 		if (!socket) {
 			return;
@@ -34,6 +42,7 @@ module.exports = Backbone.Model.extend((function ConnectionClass() {
 	return {
 		init: init,
 		authentication: authentication,
+		register: register,
 		close: close
 	};
 })());
