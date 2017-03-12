@@ -1,6 +1,7 @@
 var ChatService = require('./chat-service');
 var MapService = require('./map-service');
 var RepositoryService = require('./repository-service');
+var mongoDB = require('../mongodb');
 
 exports.listen = function projectService(io, socket, projects) {
 	var chatService = null;
@@ -83,7 +84,9 @@ exports.listen = function projectService(io, socket, projects) {
 
 		user.projects.forEach(function getProjectId(idProject) {
 			for (var i in projects) {
-				if (projects[i].id === idProject) {
+				// ObjectId.str
+				if (projects[i]._id.str === idProject.str) {
+					console.log('projects[i]', projects[i]);
 					results.push(projects[i]);
 					return;
 				}
@@ -95,6 +98,15 @@ exports.listen = function projectService(io, socket, projects) {
 
 	socket.on('getProjects', function onGetProjects() {
 		socket.emit('updateProjects', getProjectsUser(socket.user));
+	});
+
+	socket.on('createProject', function onCreateProject(title, desc, members) {
+		members = members.replace(' ', '').split(',');
+		// create dossier in bd and link all user on it
+		mongoDB.createProject(title, desc, members);
+		// create repositorie by RepositoryService
+		// update project list
+		getProjectsUser(socket.user);
 	});
 
 

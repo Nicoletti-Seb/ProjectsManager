@@ -27,8 +27,40 @@ module.exports = (function MongodbServerClass() {
 		mongodb = null;
 	}
 
-	function addProject(project) {
+	function addProjectOne(idProject, login) {
+		return new Promise(function executor(resolve, reject) {
+			var colUsers = mongodb.collection('users');
+			colUsers.updateOne(
+				{ login: login },
+				{ $push: { projects: idProject } },
+				function onUpdateOne(err, items) {
+					if (err) { return reject(err); }
+					return resolve(items);
+			});
+		});
+	}
 
+	function addProjectMany(idProject, members) {
+		var promises = [];
+
+		members.forEach(function onMembers(m) {
+			promises.push(addProjectOne(idProject, m));
+		});
+
+		return Promise.all(promises);
+	}
+
+	function createProject(title, desc, members) {
+		return new Promise(function executor(resolve, reject) {
+			var colProjects = mongodb.collection('projects');
+			colProjects.insertOne(
+				{ name: title, desc: desc, currentUsers: [] },
+				function onFindOne(err, items) {
+					if (err) { return reject(err); }
+					var idProject = items.ops[0]._id;
+					return addProjectMany(idProject, members).then(function () { return resolve(items); });
+				});
+		});
 	}
 
 	function addUser(user) {
@@ -78,7 +110,7 @@ module.exports = (function MongodbServerClass() {
 	return {
 		connect: connect,
 		close: close,
-		addProject: addProject,
+		createProject: createProject,
 		addUser: addUser,
 		getUsers: getUsers,
 		getUser: getUser,

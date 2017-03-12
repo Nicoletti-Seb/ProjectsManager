@@ -12,7 +12,8 @@ module.exports = function RepositoryService(io, socket) {
 			return;
 		}
 
-		rootDir = path.join(__dirname, '..', '..', 'repositories', String(socket.currentProject.id));
+		rootDir = path.join(__dirname, '..', '..', 'repositories',
+			String(socket.currentProject._id.str));
 		currentDir = rootDir;
 
 		if (!fs.existsSync(rootDir)) {
@@ -24,7 +25,8 @@ module.exports = function RepositoryService(io, socket) {
 		fs.readdir(currentDir, function onReaddir(err, filenames) {
 			if (err) {
 				socket.emit('msgError', 'une erreur c\'est produite...');
-				return			}
+				return;
+			}
 
 			//read informations for each files;
 
