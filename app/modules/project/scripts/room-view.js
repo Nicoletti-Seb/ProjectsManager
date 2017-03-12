@@ -29,7 +29,10 @@ module.exports = Backbone.View.extend({
 	onKeyPress: function onKeyPress(e) {
 		if (e.which === 13) {
 			$(this).blur();
-			this.$el.find('#datasend').focus().click();
+			if (this.$el.find('#data').val() !== '') {
+				this.$el.find('#datasend').focus().click();
+				this.$el.find('#data').focus();
+			}
 		}
 	},
 

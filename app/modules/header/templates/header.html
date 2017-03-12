@@ -1,17 +1,19 @@
-{% if isConnected %}
-	<h2 class="disconnect"">Se deconnecter</h2>
-{% else %}
-	<h2><a href="#">Se connecter</a></h2>
-{% endif %}
-
-{% if currentProject %}
-	<h2 class="disconnect-project">Sortir du projet</h2>
-{% endif %}
-
-
-
 <nav class="navbar " id="navigation">
 	<ul class="list-inline navbar-nav">
+		{% if isConnected %}
+			<li>
+				<a href="" class="menu-item disconnect">Se deconnecter</a>
+			</li>
+		{% else %}
+			<li>
+				<a href="#" class="menu-item">Se connecter</a>
+			</li>
+		{% endif %}
+		{% if currentProject %}
+			<li>
+				<a href="" class="menu-item disconnect-project">Sortir du projet</a>
+			</li>
+		{% endif %}
 		{% if currentProject %}
 			<li>
 				<a href="#project" title="Conversation" class="menu-item">Chat</a>
