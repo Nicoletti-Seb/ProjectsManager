@@ -28,7 +28,7 @@ exports.listen = function projectService(io, socket, projects) {
 
 	function searchProjects(id) {
 		for(var i in projects) {
-			if (projects[i].id === id) {
+			if (projects[i]._id.toHexString() === id) {
 				return projects[i];
 			}
 		}
@@ -84,9 +84,8 @@ exports.listen = function projectService(io, socket, projects) {
 
 		user.projects.forEach(function getProjectId(idProject) {
 			for (var i in projects) {
-				// ObjectId.str
-				if (projects[i]._id.str === idProject.str) {
-					console.log('projects[i]', projects[i]);
+				// ObjectId.toHexString
+				if (projects[i]._id.toHexString() === idProject.toHexString()) {
 					results.push(projects[i]);
 					return;
 				}
