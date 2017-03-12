@@ -63,8 +63,19 @@ module.exports = (function MongodbServerClass() {
 		});
 	}
 
-	function addUser(user) {
-
+	function addUser(login, password, firstname, lastname, email, speciality) {
+		return new Promise(function executor(resolve, reject) {
+			var collection = mongodb.collection('users');
+			collection.insertOne(
+				{ login: login, password: password,
+					firstname: firstname, lastname: lastname,
+					email: email, speciality: speciality,
+					projects: [] }
+					, function onFindOne(err, items) {
+				if (err) { return reject(err); }
+				return resolve(items);
+			});
+		});
 	}
 
 	function getUsers() {
