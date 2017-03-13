@@ -19,11 +19,16 @@ module.exports = Backbone.View.extend({
 
 		var formData = new FormData(e.currentTarget);
 		var login = formData.get('login');
-		var email = formData.get('email');
 		var password = formData.get('password');
+		var firstname = formData.get('firstname');
+		var lastname = formData.get('lastname');
+		var email = formData.get('email');
 		var speciality = formData.get('speciality');
 		//var photo = formData.get('photo');
-		this.model.register(login, email, password, speciality);
+		this.model.register(login, password, firstname, lastname, email, speciality);
+
+		// redirect home page
+		Backbone.history.navigate('home', { trigger: true });
 	},
 
 	getOptions: function getOptions() {

@@ -13,6 +13,7 @@ module.exports = Backbone.View.extend({
 			isConnected: this.model.isConnected(),
 			currentProject: this.model.currentProject()
 		});
+		console.log('this.model.currentProject()', this.model.currentProject());
 		this.$el.html(html);
 		return this;
 	},
