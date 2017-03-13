@@ -17,7 +17,9 @@ module.exports = Backbone.View.extend({
 		return this;
 	},
 
-	disconnect: function disconnect() {
+	disconnect: function disconnect(e) {
+		e.preventDefault();
+
 		this.model.disconnect();
 		this.render();
 		Backbone.history.navigate('', { trigger: true });
