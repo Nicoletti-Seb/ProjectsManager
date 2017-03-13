@@ -190,6 +190,19 @@ module.exports = module.exports = Backbone.Model.extend(function VisioClass() {
 	}
 
 
+	function participantsHaveCamera() {
+		console.log(getParticipants());
+
+		for (var p in getParticipants()) {
+			if (p.media.mediaStreams.size) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
 	return {
 		webRTCIsAvailable: webRTCIsAvailable,
 		setOptions: setOptions,
@@ -198,6 +211,7 @@ module.exports = module.exports = Backbone.Model.extend(function VisioClass() {
 		removeOptions: removeOptions,
 		close: close,
 		init: init,
-		getParticipants: getParticipants
+		getParticipants: getParticipants,
+		participantsHaveCamera: participantsHaveCamera
 	};
 }());

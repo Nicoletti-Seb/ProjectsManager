@@ -34,7 +34,6 @@ module.exports = Backbone.View.extend({
 		this.displayMyLocalCam();
 
 		if (this.model.getParticipants().size) {
-			console.log('participant');
 			this.displayOtherCam();
 		}
 	},
@@ -48,6 +47,11 @@ module.exports = Backbone.View.extend({
 	displayOtherCam: function displayOtherCam() {
 		console.log('displayOtherCam');
 		this.$el.find('.loader').addClass('hidden');
+
+		if (!this.model.participantsHaveCamera()) {
+			return;
+		}
+
 		this.$el.find('.btn-stop').removeClass('hidden');
 		this.$el.find('.visio-content .visio-remote').addClass('larger-video');
 		this.$el.find('.visio-content .visio-local').removeClass('larger-video');
