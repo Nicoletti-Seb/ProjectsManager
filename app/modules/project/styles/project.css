@@ -3,10 +3,12 @@
 		max-width:80%;
 		height:250px;
 		padding:10px;
+		margin: auto;
 
 		.conversation {
 			height: 100%;
 			overflow:auto;
+			text-align: left;
 		}
 	}
 }
