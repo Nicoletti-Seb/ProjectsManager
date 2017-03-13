@@ -48,9 +48,9 @@ module.exports = Backbone.View.extend({
 		console.log('displayOtherCam');
 		this.$el.find('.loader').addClass('hidden');
 
-		if (!this.model.participantsHaveCamera()) {
+		/*if (!this.model.participantsHaveCamera()) {
 			return;
-		}
+		}*/
 
 		this.$el.find('.btn-stop').removeClass('hidden');
 		this.$el.find('.visio-content .visio-remote').addClass('larger-video');

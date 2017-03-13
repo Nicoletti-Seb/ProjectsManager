@@ -193,13 +193,16 @@ module.exports = module.exports = Backbone.Model.extend(function VisioClass() {
 	function participantsHaveCamera() {
 		console.log(getParticipants());
 
-		for (var p in getParticipants()) {
-			if (p.media.mediaStreams.size) {
-				return true;
+		var bool =  false;
+		getParticipants().forEach(function onGetParticipants(p) {
+			console.log('size ', p.media.attachments.size);
+			console.log('media ', p.media);
+			if (p.media.attachments.size) {
+				bool = true;
 			}
-		}
+		});
 
-		return false;
+		return bool;
 	}
 
 
