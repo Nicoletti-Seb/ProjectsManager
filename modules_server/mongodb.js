@@ -50,11 +50,11 @@ module.exports = (function MongodbServerClass() {
 		return Promise.all(promises);
 	}
 
-	function createProject(title, desc, members) {
+	function createProject(title, desc, members, idLeader) {
 		return new Promise(function executor(resolve, reject) {
 			var colProjects = mongodb.collection('projects');
 			colProjects.insertOne(
-				{ name: title, desc: desc, currentUsers: [] },
+				{ name: title, desc: desc, leader: idLeader, currentUsers: [] },
 				function onFindOne(err, items) {
 					if (err) { return reject(err); }
 					var idProject = items.ops[0]._id;
