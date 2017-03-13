@@ -1,24 +1,29 @@
 <section class="repository drop-zone">
-	<h1>Repository</h1>
-	<ul>
-		{% for file in files %}
-			<li>
-				{% if file.isDirectory %}
-		  			<span class="directory enter icon" data-dirname="{{ file.filename }}">{{ file.filename }}</span>
-		  			<i class="fa fa-trash-o directory delete" data-dirname="{{ file.filename }}"></i>
-		  			<i class="fa fa-pencil edit" data-name="{{ file.filename }}"></i>
-		  		
-		  		{% else %}
-		  			<span class="file download icon" data-filename="{{ file.filename }}">{{ file.filename }}</span>
-		  			<i class="fa fa-trash-o file delete" data-filename="{{ file.filename }}"></i>
-		  			<i class="fa fa-pencil edit" data-name="{{ file.filename }}"></i>
-		  		{% endif %}
-		  	</li>
-		{% else %}
-		  <li>Dossier vide</li>
-		{% endfor %}
-	</ul>
-
-	<button type="button" class="previous" >Precedent</button>
-	<button type="button" class="create-directory" >Créer dossier</button>
+	<header class="form-title text-center">
+		<h1>Repository</h1>
+	</header>
+	<div id="files">
+		<ul>
+			{% for file in files %}
+				<li>
+					{% if file.isDirectory %}
+			  			<span class="directory enter icon" data-dirname="{{ file.filename }}">{{ file.filename }}</span>
+			  			<i class="fa fa-trash-o directory delete" data-dirname="{{ file.filename }}"></i>
+			  			<i class="fa fa-pencil edit" data-name="{{ file.filename }}"></i>
+			  		
+			  		{% else %}
+			  			<span class="file download icon" data-filename="{{ file.filename }}">{{ file.filename }}</span>
+			  			<i class="fa fa-trash-o file delete" data-filename="{{ file.filename }}"></i>
+			  			<i class="fa fa-pencil edit" data-name="{{ file.filename }}"></i>
+			  		{% endif %}
+			  	</li>
+			{% else %}
+			  <li>Dossier vide</li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div id="navigation">
+		<button type="button" class="button-gray previous" >Precedent</button>
+		<button type="button" class="button create-directory" >Créer dossier</button>
+	</div>
 </section>

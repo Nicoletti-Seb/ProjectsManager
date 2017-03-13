@@ -43,7 +43,6 @@ body {
 }
 .section {
 	position: relative;
-	margin: 20px;
 
 	&.content{
 		width: 100%;
@@ -106,6 +105,20 @@ body {
 	  -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
 	  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
 	  text-shadow: -1px -1px 0 rgba(15,73,168,0.66) ;
+}
+
+.button-gray {
+	display: inline-block;
+	width: 150px;
+	padding: 10px 0;
+	border: 1px solid #018dc4;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
+    color: #FFFFFF; 
+	background: #A5A5AF;
+	-webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+	box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+	text-shadow: -1px -1px 0 rgba(15,73,168,0.66) ;
 }
 
 /*#77C9D4

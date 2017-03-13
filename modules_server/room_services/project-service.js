@@ -102,7 +102,14 @@ exports.listen = function projectService(io, socket, projects) {
 	socket.on('createProject', function onCreateProject(title, desc, members) {
 		members = members.replace(' ', '').split(',');
 		// create dossier in bd and link all user on it
-		mongoDB.createProject(title, desc, members);
+		mongoDB.createProject(title, desc, members)
+		.then(function onGetCreateProjetct(response) {
+			socket.emit('message', 'The ' + response.ops[0].name + ' has been created');
+			console.log('create project success', response);
+		}).catch(function onError(err) {
+			socket.emit('msgError', 'The creation user failed');
+			console.log('create project failed', err);
+		});
 		// create repositorie by RepositoryService
 		// update project list
 		socket.emit('updateProjects', getProjectsUser(socket.user));
@@ -111,9 +118,9 @@ exports.listen = function projectService(io, socket, projects) {
 	socket.on('register',
 		function onRegister(login, password, firstname, lastname, email, speciality) {
 			mongoDB.addUser(login, password, firstname, lastname, email, speciality)
-			.then(function onGetRegister(request) {
-				socket.emit('message', 'The ' + request.ops[0].login + ' has been created');
-				console.log('create user success', request);
+			.then(function onGetRegister(response) {
+				socket.emit('message', 'The ' + response.ops[0].login + ' has been created');
+				console.log('create user success', response);
 			}).catch(function onError(err) {
 				socket.emit('msgError', 'The creation user failed');
 				console.log('create user failed', err);
