@@ -23,7 +23,9 @@ module.exports = Backbone.View.extend({
 		Backbone.history.navigate('', { trigger: true });
 	},
 
-	disconnectToProject: function disconnectToProject() {
+	disconnectToProject: function disconnectToProject(e) {
+		e.preventDefault();
+
 		this.model.disconnectToProject();
 		this.render();
 		Backbone.history.navigate('home', { trigger: true });

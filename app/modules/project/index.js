@@ -105,7 +105,7 @@ module.exports = function main(session) {
 
 			//TODO: start visio
 			visio.init(visioView.getOptions());
-			visio.createRoom(socket.project.id);
+			visio.createRoom(socket.project._id);
 		}
 	};
 };
