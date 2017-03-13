@@ -105,8 +105,20 @@ exports.listen = function projectService(io, socket, projects) {
 		mongoDB.createProject(title, desc, members);
 		// create repositorie by RepositoryService
 		// update project list
-		getProjectsUser(socket.user);
+		socket.emit('updateProjects', getProjectsUser(socket.user));
 	});
+
+	socket.on('register',
+		function onRegister(login, password, firstname, lastname, email, speciality) {
+			mongoDB.addUser(login, password, firstname, lastname, email, speciality)
+			.then(function onGetRegister(request) {
+				socket.emit('message', 'The ' + request.ops[0].login + ' has been created');
+				console.log('create user success', request);
+			}).catch(function onError(err) {
+				socket.emit('msgError', 'The creation user failed');
+				console.log('create user failed', err);
+			});
+		});
 
 
 	/*socket.on('switchRoom', function onSwitchRoom(newroom) {
