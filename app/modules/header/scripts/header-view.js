@@ -11,7 +11,8 @@ module.exports = Backbone.View.extend({
 	render: function render() {
 		var html = this.template.render({
 			isConnected: this.model.isConnected(),
-			currentProject: this.model.currentProject()
+			currentProject: this.model.currentProject(),
+			login: this.model.getLogin()
 		});
 		console.log('this.model.currentProject()', this.model.currentProject());
 		this.$el.html(html);

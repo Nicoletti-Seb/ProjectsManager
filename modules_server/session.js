@@ -34,7 +34,8 @@ exports.createSession = function createSession(server) {
 					ProjectService.listen(io, socket, projects);
 
 					//Return connection
-					socket.emit('authenticate');
+					user.password = '';
+					socket.emit('authenticate', user);
 				}).catch(function onError(err) { console.log('onGetUser ', err); });
 		});
 

@@ -58,7 +58,16 @@ module.exports = Backbone.View.extend({
 	},
 
 	onUpdateChat: function onUpdateChat(username, data) {
-		this.$el.find('.conversation').append('<b>' + username + ':</b> ' + data + '<br>');
+		console.log(this.model.getLogin(), ' ', username);
+		if (this.model.getLogin() === username) {
+			this.$el.find('.conversation')
+				.append('<div class="msg me">' + data + '</div>');
+		}
+		else {
+			this.$el.find('.conversation')
+				.append('<div class="msg other"><b>' + username + ':</b> ' + data + '</div>');
+		}
+		
 	},
 
 	onUpdateRooms: function onUpdateRooms(rooms, currentRoom) {

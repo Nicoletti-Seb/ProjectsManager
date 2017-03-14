@@ -14,11 +14,12 @@ module.exports = Backbone.Model.extend((function HeaderClass() {
 	var isConnected = false;
 
 
-	function onAuthenticate(err) {
+	function onAuthenticate(user) {
 		isConnected = true;
+		socket.user = user;
 
 		if (options.onAuthenticate) {
-			options.onAuthenticate(err);
+			options.onAuthenticate(user);
 		}
 	}
 
@@ -70,6 +71,7 @@ module.exports = Backbone.Model.extend((function HeaderClass() {
 		init: init,
 		isConnected: function () { return isConnected; },
 		currentProject: function () { return socket && socket.project; },
+		getLogin: function () { return socket && socket.user && socket.user.login; },
 		disconnect: disconnect,
 		disconnectToProject: disconnectToProject,
 		close: close

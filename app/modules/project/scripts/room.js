@@ -63,6 +63,7 @@ module.exports = Backbone.Model.extend((function RoomClass() {
 		addUser: addUser,
 		sendMessage: sendMessage,
 		switchRoom: switchRoom,
+		getLogin: function () { return socket && socket.user.login; },
 		close: close
 	};
 })());
