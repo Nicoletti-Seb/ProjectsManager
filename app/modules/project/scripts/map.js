@@ -67,6 +67,7 @@ module.exports = Backbone.Model.extend((function ClassMap() {
 	function onUpdateLocationUsers(users) {
 		removeAllMarkers();
 
+		console.log('onUpdateLocationUsers ', users);
 		users.forEach(function onUpdateLocationUser(user) {
 			addMarker(user.location);
 		});

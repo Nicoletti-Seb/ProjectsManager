@@ -13,7 +13,7 @@ module.exports = function RepositoryService(io, socket) {
 		}
 
 		rootDir = path.join(__dirname, '..', '..', 'repositories',
-			String(socket.currentProject._id.str));
+			String(socket.currentProject._id));
 		currentDir = rootDir;
 
 		if (!fs.existsSync(rootDir)) {

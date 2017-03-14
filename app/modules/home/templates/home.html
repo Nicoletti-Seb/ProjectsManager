@@ -5,7 +5,7 @@
 
 	<div class="table-projects">
 	{% for item in projects %}
-		{% if item.leader != socket.user._id %}
+		{% if item.leader == socket.user._id %}
 	  		<div class="panel-project leader" data-id="{{ item._id }}">{{ item.name }}</div>
 	  	{% else %}
 	  		<div class="panel-project" data-id="{{ item._id }}">{{ item.name }}</div>

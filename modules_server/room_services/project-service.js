@@ -56,16 +56,15 @@ exports.listen = function projectService(io, socket, projects) {
 		socket.currentProject = project;
 		project.currentUsers.push(socket.user);
 
-		socket.join(project.name);
+		socket.join(project._id);
 
 		updateServices();
 
 		//notify users
 		socket.emit('connectedToProject', project);
 		socket.broadcast
-			.to(project.name)
+			.to(project._id)
 			.emit('updatechat', 'SERVER', socket.user.login + ' has connected to this room');
-		socket.emit('updateProjects', projects);
 	});
 
 
@@ -77,6 +76,9 @@ exports.listen = function projectService(io, socket, projects) {
 
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
 		socket.leave(socket.room);
+
+		//update map services
+		mapService.updateLocationUsers();
 	});
 
 	function getProjectsUser(user) {
@@ -129,7 +131,6 @@ exports.listen = function projectService(io, socket, projects) {
 			mongoDB.addUser(login, password, firstname, lastname, email, speciality)
 			.then(function onGetRegister(response) {
 				socket.emit('message', 'The user \'' + response.ops[0].login + '\' has been created');
-				console.log('create user success', response);
 			}).catch(function onError(err) {
 				socket.emit('msgError', 'The creation user failed');
 				console.log('create user failed', err);
